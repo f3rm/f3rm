@@ -15,12 +15,14 @@ that generalizes across object poses, shapes, appearances and categories.
 <sup>* </sup>Indicates equal contribution
 
 ## Installation
+**Note:** this project requires a NVIDIA GPU with CUDA 11.8+
+
 ```bash
 # Clone the repo
 git clone https://github.com/f3rm/f3rm.git
 cd f3rm
 
-# Create conda environment
+# Create conda environment. Feel free to use a different package manager
 conda create -n f3rm python=3.10 -y
 conda activate f3rm
 
@@ -30,8 +32,11 @@ pip install torch==2.0.1+cu118 torchvision==0.15.2+cu118 --extra-index-url https
 pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
 pip install nerfstudio
 
-# Install project and dependencies
+# Install F3RM project and dependencies
 pip install -e .
+
+# Test your installation
+# TODO: add test
 ```
 
 ## Code coming soon
