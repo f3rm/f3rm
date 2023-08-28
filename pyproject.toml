@@ -1,0 +1,42 @@
+[project]
+name = "f3rm"
+version = "0.0.1"
+description = "F3RM: Feature Fields for Robotic Manipulation"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+keywords = ["nerf", "feature-fields", "robotics"]
+authors = [
+    { name = "William Shen", email = "willshen@csail.mit.edu" },
+    { name = "Ge Yang", email = "geyang@csail.mit.edu" },
+]
+
+dependencies = [
+    "einops",
+    "ftfy",
+    "numpy",
+    "regex",
+    "tqdm",
+    # Maybe remove
+    "params-proto",
+    "ml-logger",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "isort",
+]
+
+[project.urls]
+"Homepage" = "https://f3rm.csail.mit.edu"
+"Source" = "https://github.com/f3rm/f3rm"
+
+# The following would provide a command line executable called `sample`
+# which executes the function `main` from this package when invoked.
+[project.scripts]  # Optional
+sample = "sample:main"
+
+[build-system]
+requires = ["setuptools>=43.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
