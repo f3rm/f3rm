@@ -5,8 +5,7 @@ import torch
 from einops import rearrange
 from PIL import Image
 from torchvision.transforms import CenterCrop, Compose
-
-from f3rm.features.clip import clip
+from tqdm import tqdm
 
 
 class CLIPArgs:
@@ -18,6 +17,8 @@ class CLIPArgs:
 @torch.no_grad()
 def extract_clip_features(image_paths: List[str], device: torch.device) -> torch.Tensor:
     """Extract dense patch-level CLIP features for given images"""
+    from f3rm.features.clip import clip
+
     model, preprocess = clip.load(CLIPArgs.model_name, device=device)
     print(f"Loaded CLIP model {CLIPArgs.model_name}")
 
@@ -42,7 +43,10 @@ def extract_clip_features(image_paths: List[str], device: torch.device) -> torch
 
     # Get CLIP embeddings for the images
     embeddings = []
-    for i in range(0, len(images), CLIPArgs.batch_size):
+    for i in tqdm(
+        range(0, len(preprocessed_images), CLIPArgs.batch_size),
+        desc="Extracting DINO features",
+    ):
         batch = preprocessed_images[i : i + CLIPArgs.batch_size]
         embeddings.append(model.get_patch_encodings(batch))
     embeddings = torch.cat(embeddings, dim=0)
