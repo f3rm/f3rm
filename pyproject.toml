@@ -16,10 +16,8 @@ dependencies = [
     "ftfy",
     "numpy",
     "regex",
+    "torchtyping",
     "tqdm",
-    # Maybe remove
-    "params-proto",
-    "ml-logger",
 ]
 
 [project.optional-dependencies]
