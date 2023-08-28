@@ -14,6 +14,26 @@ that generalizes across object poses, shapes, appearances and categories.
 <sup>2 </sup>[Institute of AI and Fundamental Interactions (IAIFI)](https://iaifi.org/)<br>
 <sup>* </sup>Indicates equal contribution
 
+## Installation
+```bash
+# Clone the repo
+git clone https://github.com/f3rm/f3rm.git
+cd f3rm
+
+# Create conda environment
+conda create -n f3rm python=3.10 -y
+conda activate f3rm
+
+# Install Nerfstudio per instructions here: 
+# https://docs.nerf.studio/en/latest/quickstart/installation.html#dependencies
+pip install torch==2.0.1+cu118 torchvision==0.15.2+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
+pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
+pip install nerfstudio
+
+# Install project and dependencies
+pip install -e .
+```
+
 ## Code coming soon
 Check back for updates.
 
