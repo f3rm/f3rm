@@ -8,3 +8,5 @@ __pycache__/
 
 # Output of demo extract features script
 **/demo_extract_features.png
+**/demo_clip_features*.png
+

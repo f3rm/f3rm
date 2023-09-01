@@ -1,64 +1,69 @@
 import os
-from typing import List
 
 import matplotlib.pyplot as plt
-import numpy as np
 import torch
 from PIL import Image
 
 from f3rm.features import clip
 from f3rm.features.clip import tokenize
 from f3rm.features.clip_extract import CLIPArgs, extract_clip_features
-from f3rm.pca_colormap import apply_pca_colormap
 
 _MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
 _IMAGE_DIR = os.path.join(_MODULE_DIR, "images")
+
 
 image_paths = [
     os.path.join(_IMAGE_DIR, name)
     for name in ["frame_1.png", "frame_2.png", "frame_3.png"]
 ]
-device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
 
 @torch.no_grad()
-def demo_clip_features():
+def demo_clip_features(text_query: str) -> None:
+    device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+
     # Extract the patch-level features for the images
-    clip_embeddings = extract_clip_features(image_paths, device)
+    clip_embs = extract_clip_features(image_paths, device)
+    clip_embs /= clip_embs.norm(dim=-1, keepdim=True)
 
     # Load the CLIP model so we can get text embeddings
     model, _ = clip.load(CLIPArgs.model_name, device=device)
 
-    # Encode text queries
-    text_queries = ["teddy bear", "mug", "scissors"]
-    tokens = tokenize(text_queries).to(device)
-    text_embeddings = model.encode_text(tokens)
+    # Encode text query
+    tokens = tokenize(text_query).to(device)
+    text_embs = model.encode_text(tokens)
 
     # Normalize embeddings
-    clip_embeddings /= clip_embeddings.norm(dim=-1, keepdim=True)
-    text_embeddings /= text_embeddings.norm(dim=-1, keepdim=True)
+    text_embs /= text_embs.norm(dim=-1, keepdim=True)
 
     # Compute similarities
-    all_sims = clip_embeddings @ text_embeddings.T
-    all_sims = all_sims.float()
+    sims = clip_embs @ text_embs.T
+    sims = sims.squeeze()
 
     # Visualize
     plt.figure()
     cmap = plt.get_cmap("turbo")
+    for idx, (image_path, sim) in enumerate(zip(image_paths, sims)):
+        plt.subplot(2, len(image_paths), idx + 1)
+        plt.imshow(Image.open(image_path))
+        plt.title(os.path.basename(image_path))
+        plt.axis("off")
 
-    for idx, sims in enumerate(all_sims):
-        plt.subplot(len(image_paths), len(text_queries) + 1, idx)
-        plt.imshow(Image.open(image_paths[idx]))
+        plt.subplot(2, len(image_paths), len(image_paths) + idx + 1)
+        sim_norm = (sim - sim.min()) / (sim.max() - sim.min())
+        heatmap = cmap(sim_norm.cpu().numpy())
+        plt.imshow(heatmap)
+        plt.axis("off")
 
-        sims = sims.permute(2, 0, 1).cpu().numpy()
-        for query, sim in zip(text_queries, sims):
-            # Normalize similarity
-            sim = (sim - sim.min()) / (sim.max() - sim.min())
-            heatmap = cmap(sim)
-            # heatmap = Image.fromarray((heatmap * 255).astype(np.uint8))
+    plt.tight_layout()
+    plt.suptitle(f'Similarity to language query "{text_query}"')
 
-            plt.subplot()
+    text_label = text_query.replace(" ", "-")
+    plt_fname = f"demo_clip_features_{text_label}.png"
+    plt.savefig(plt_fname)
+    print(f"Saved plot to {plt_fname}")
+    plt.show()
 
 
 if __name__ == "__main__":
-    demo_clip_features()
+    demo_clip_features(text_query="teddy bear")

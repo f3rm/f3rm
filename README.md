@@ -17,8 +17,7 @@ that generalizes across object poses, shapes, appearances and categories.
 ## Code
 **The NeRF and feature distillation code will be released soon.**
 
-We currently provide our implementation for extracting CLIP and DINO features. See `scripts/demo_extract_features.py`
-for a demo.
+We currently provide our implementation for extracting CLIP and DINO features. See [Usage](#usage) for more details.
 
 ### Installation
 **Note:** this repo will eventually require an NVIDIA GPU with CUDA 11.7+ for NeRF and feature field distillation.
@@ -43,8 +42,13 @@ pip install -e .
 ### Usage
 **Extracting CLIP and DINO Features**
 
-Run `python scripts/demo_extract_features.py` for a demo on how to extract CLIP and DINO features.
+Run `python scripts/demo_extract_features.py` for a general demo on how to extract CLIP and DINO features.
 This will create a plot showing the PCA of the CLIP and DINO features. The plot is saved to `demo_extract_features.png`.
+
+For details on how to extract CLIP features and compare the extracted features with CLIP text embeddings, run
+`python scripts/demo_clip_features.py`. This script will create a plot showing the similarity heatmaps for a given
+text query, and will save a plot to `demo_clip_features-{text_query}.png`.
+
 
 ## Citation
 
