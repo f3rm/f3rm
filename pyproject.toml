@@ -14,7 +14,9 @@ authors = [
 dependencies = [
     "einops",
     "ftfy",
+    "matplotlib",
     "numpy",
+    "pillow",
     "regex",
     "torchtyping",
     "tqdm",
@@ -29,11 +31,6 @@ dev = [
 [project.urls]
 "Homepage" = "https://f3rm.csail.mit.edu"
 "Source" = "https://github.com/f3rm/f3rm"
-
-# The following would provide a command line executable called `sample`
-# which executes the function `main` from this package when invoked.
-[project.scripts]  # Optional
-sample = "sample:main"
 
 [build-system]
 requires = ["setuptools>=43.0.0", "wheel"]

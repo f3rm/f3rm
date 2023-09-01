@@ -66,13 +66,3 @@ def extract_dino_features(image_paths: List[str], device: torch.device) -> torch
     gc.collect()
 
     return embeddings
-
-
-if __name__ == "__main__":
-    extract_dino_features(
-        [
-            f"/home/william/workspace/vqn/datasets/instant-feature/datasets/panda/open_ended/multi_lang/demo/trial_002/scene_00002/images/frame_{i + 1:05d}.png"
-            for i in range(50)
-        ],
-        torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu"),
-    )

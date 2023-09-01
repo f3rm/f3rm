@@ -5,3 +5,6 @@ __pycache__/
 *.py[cod]
 
 **/.DS_Store
+
+# Output of demo extract features script
+**/demo_extract_features.png

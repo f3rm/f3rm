@@ -14,8 +14,14 @@ that generalizes across object poses, shapes, appearances and categories.
 <sup>2 </sup>[Institute of AI and Fundamental Interactions (IAIFI)](https://iaifi.org/)<br>
 <sup>* </sup>Indicates equal contribution
 
-## Installation
-**Note:** this project requires a NVIDIA GPU with CUDA 11.8+
+## Code
+**The NeRF and feature distillation code will be released soon.**
+
+We currently provide our implementation for extracting CLIP and DINO features. See `scripts/demo_extract_features.py`
+for a demo.
+
+### Installation
+**Note:** this repo will eventually require an NVIDIA GPU with CUDA 11.7+ for NeRF and feature field distillation.
 
 ```bash
 # Clone the repo
@@ -26,21 +32,19 @@ cd f3rm
 conda create -n f3rm python=3.10
 conda activate f3rm
 
-# Install Nerfstudio per instructions here: 
-# https://docs.nerf.studio/en/latest/quickstart/installation.html#dependencies
+# Install torch per instructions here: https://pytorch.org/get-started/locally/
+# Choose the CUDA version that matches your GPU
 pip install torch==2.0.1+cu118 torchvision==0.15.2+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
-pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
-pip install nerfstudio
 
 # Install F3RM project and dependencies
 pip install -e .
-
-# Test your installation
-# TODO: add test
 ```
 
-## Code coming soon
-Check back for updates.
+### Usage
+**Extracting CLIP and DINO Features**
+
+Run `python scripts/demo_extract_features.py` for a demo on how to extract CLIP and DINO features.
+This will create a plot showing the PCA of the CLIP and DINO features. The plot is saved to `demo_extract_features.png`.
 
 ## Citation
 
