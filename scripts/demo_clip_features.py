@@ -31,8 +31,6 @@ def demo_clip_features(text_query: str) -> None:
     # Encode text query
     tokens = tokenize(text_query).to(device)
     text_embs = model.encode_text(tokens)
-
-    # Normalize embeddings
     text_embs /= text_embs.norm(dim=-1, keepdim=True)
 
     # Compute similarities
