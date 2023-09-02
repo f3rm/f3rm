@@ -45,7 +45,7 @@ def extract_clip_features(image_paths: List[str], device: torch.device) -> torch
     embeddings = []
     for i in tqdm(
         range(0, len(preprocessed_images), CLIPArgs.batch_size),
-        desc="Extracting DINO features",
+        desc="Extracting CLIP features",
     ):
         batch = preprocessed_images[i : i + CLIPArgs.batch_size]
         embeddings.append(model.get_patch_encodings(batch))
