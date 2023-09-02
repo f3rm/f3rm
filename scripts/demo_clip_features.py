@@ -11,7 +11,6 @@ from f3rm.features.clip_extract import CLIPArgs, extract_clip_features
 _MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
 _IMAGE_DIR = os.path.join(_MODULE_DIR, "images")
 
-
 image_paths = [
     os.path.join(_IMAGE_DIR, name)
     for name in ["frame_1.png", "frame_2.png", "frame_3.png"]
