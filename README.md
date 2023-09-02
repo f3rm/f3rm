@@ -14,8 +14,41 @@ that generalizes across object poses, shapes, appearances and categories.
 <sup>2 </sup>[Institute of AI and Fundamental Interactions (IAIFI)](https://iaifi.org/)<br>
 <sup>* </sup>Indicates equal contribution
 
-## Code coming soon
-Check back for updates.
+## Code
+**The NeRF and feature distillation code will be released soon.**
+
+We currently provide our implementation for extracting CLIP and DINO features. See [Usage](#usage) for more details.
+
+### Installation
+**Note:** this repo will eventually require an NVIDIA GPU with CUDA 11.7+ for NeRF and feature field distillation.
+
+```bash
+# Clone the repo
+git clone https://github.com/f3rm/f3rm.git
+cd f3rm
+
+# Create conda environment. Feel free to use a different package manager
+conda create -n f3rm python=3.10
+conda activate f3rm
+
+# Install torch per instructions here: https://pytorch.org/get-started/locally/
+# Choose the CUDA version that matches your GPU
+pip install torch==2.0.1+cu118 torchvision==0.15.2+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
+
+# Install F3RM project and dependencies
+pip install -e .
+```
+
+### Usage
+**Extracting CLIP and DINO Features**
+
+Run `python scripts/demo_extract_features.py` for a general demo on how to extract CLIP and DINO features.
+This will create a plot showing the PCA of the CLIP and DINO features. The plot is saved to `demo_extract_features.png`.
+
+For details on how to extract CLIP features and compare the extracted features with CLIP text embeddings, run
+`python scripts/demo_clip_features.py`. This script will create a plot showing the similarity heatmaps for a given
+text query, and will save a plot to `demo_clip_features-{text_query}.png`.
+
 
 ## Citation
 

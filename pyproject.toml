@@ -1,0 +1,37 @@
+[project]
+name = "f3rm"
+version = "0.0.1"
+description = "F3RM: Feature Fields for Robotic Manipulation"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+keywords = ["nerf", "feature-fields", "robotics"]
+authors = [
+    { name = "William Shen", email = "willshen@csail.mit.edu" },
+    { name = "Ge Yang", email = "geyang@csail.mit.edu" },
+]
+
+dependencies = [
+    "einops",
+    "ftfy",
+    "matplotlib",
+    "numpy",
+    "pillow",
+    "regex",
+    "torchtyping",
+    "tqdm",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "isort",
+]
+
+[project.urls]
+"Homepage" = "https://f3rm.csail.mit.edu"
+"Source" = "https://github.com/f3rm/f3rm"
+
+[build-system]
+requires = ["setuptools>=43.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
