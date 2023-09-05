@@ -7,20 +7,19 @@ that generalizes across object poses, shapes, appearances and categories.
 
 **[William Shen](https://shen.nz)<sup>\*1</sup>, [Ge Yang](https://www.episodeyang.com/)<sup>\*2</sup>,
 [Alan Yu](https://www.linkedin.com/in/alan-yu1/)<sup>1</sup>,
-[Jansen Wong](https://www.linkedin.com/in/jansenwong/)<sup>1</sup>, 
+[Jansen Wong](https://www.linkedin.com/in/jansenwong/)<sup>1</sup>,
 [Leslie Kaelbling](https://people.csail.mit.edu/lpk/)<sup>1</sup>,
 [Phillip Isola](https://people.csail.mit.edu/phillipi/)<sup>1</sup>**<br>
 <sup>1 </sup>[MIT CSAIL](https://www.csail.mit.edu/),
 <sup>2 </sup>[Institute of AI and Fundamental Interactions (IAIFI)](https://iaifi.org/)<br>
 <sup>* </sup>Indicates equal contribution
 
-## Code
-**The NeRF and feature distillation code will be released soon.**
+## Installation
 
-We currently provide our implementation for extracting CLIP and DINO features. See [Usage](#usage) for more details.
+F3RM is built on top of [Nerfstudio](https://github.com/nerfstudio-project/nerfstudio) following their
+[guide for adding new methods](https://docs.nerf.studio/en/latest/developer_guides/new_methods.html).
 
-### Installation
-**Note:** this repo will eventually require an NVIDIA GPU with CUDA 11.7+ for NeRF and feature field distillation.
+**Note:** this repo requires an NVIDIA GPU with CUDA 11.7+ for NeRF and feature field distillation.
 
 ```bash
 # Clone the repo
@@ -38,19 +37,57 @@ pip install torch==2.0.1+cu118 torchvision==0.15.2+cu118 --extra-index-url https
 # Install tiny-cuda-nn
 pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
 
-# Install F3RM project and dependencies
+# Install F3RM project and dependencies (including nerfstudio)
 pip install -e .
+
+# Install command line completions for nerfstudio
+ns-install-cli
+
+# Test your installation, and check 'f3rm' is a valid method
+ns-train --help
 ```
 
-### Usage
-**Extracting CLIP and DINO Features**
+## Usage
 
-Run `python scripts/demo_extract_features.py` for a general demo on how to extract CLIP and DINO features.
-This will create a plot showing the PCA of the CLIP and DINO features. The plot is saved to `demo_extract_features.png`.
+### Training a Feature Field
 
-For details on how to extract CLIP features and compare the extracted features with CLIP text embeddings, run
-`python scripts/demo_clip_features.py`. This script will create a plot showing the similarity heatmaps for a given
-text query, and will save a plot to `demo_clip_features-{text_query}.png`.
+We provide the functionality to train a NeRF and distill features in parallel. The default features we distill are CLIP
+features. You can distill DINO features by setting `--pipeline.datamanager.feature-type DINO`.
+
+```bash
+ns-train f3rm --data <data_folder>
+```
+
+We provide example datasets which you can download with `f3rm-download-data`. This command downloads datasets under
+`f3rm_datasets/scene_001`, `f3rm_datasets/scene_002`, and `f3rm_datasets/scene_003` in your current directory.
+Alternatively, you can prepare your own datasets following the instructions in the
+[Nerfstudio documentation](https://docs.nerf.studio/en/latest/quickstart/custom_dataset.html).
+
+### Using our Custom Viewer
+
+Coming soon...
+
+### Using the Nerfstudio Viewer
+
+Screenshot
+
+How to use
+
+If you distill CLIP features, these appear...
+
+Please see [viewer.md](viewer.md) for more details.
+
+### Extracting CLIP and DINO Features
+
+We provide scripts to demonstrate how to extract CLIP and DINO features from their respective vision models. You can
+use these features for your own NeRF pipeline or for other downstream applications.
+
+- Run `python scripts/demo_extract_features.py` for a general demo on how to extract CLIP and DINO features.
+  This will create a plot showing the PCA of the CLIP and DINO features. The plot is saved
+  to `demo_extract_features.png`.
+- For details on how to extract CLIP features and compare the extracted features with CLIP text embeddings, run
+  `python scripts/demo_clip_features.py`. This script will create a plot showing the similarity heatmaps for a given
+  text query, and will save a plot to `demo_clip_features-{text_query}.png`.
 
 
 ## Citation
