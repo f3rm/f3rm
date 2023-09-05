@@ -31,7 +31,7 @@ class _GuiState:
     pos_embed: Optional[torch.Tensor] = None
     negatives: List[str] = field(default_factory=list)
     neg_embed: Optional[torch.Tensor] = None
-    softmax_temp: float = 10.0
+    softmax_temp: float = 0.1
 
 
 class FeatureFieldModel(NerfactoModel):
@@ -73,10 +73,12 @@ class FeatureFieldModel(NerfactoModel):
         def update_positives(element: ViewerText):
             # Embed positive texts with CLIP
             text = element.value
-            gui_state.positives = [x.strip() for x in text.split(",")]
+            gui_state.positives = [x.strip() for x in text.split(",") if x.strip()]
             if gui_state.positives:
                 tokens = tokenize(gui_state.positives).to(device)
                 gui_state.pos_embed = clip_model.encode_text(tokens).float()
+                # Average embedding if we have multiple positives
+                gui_state.pos_embed = gui_state.pos_embed.mean(dim=0, keepdim=True)
                 gui_state.pos_embed /= gui_state.pos_embed.norm(dim=-1, keepdim=True)
             else:
                 gui_state.pos_embed = None
@@ -85,7 +87,7 @@ class FeatureFieldModel(NerfactoModel):
         def update_negatives(element: ViewerText):
             # Embed negative texts with CLIP
             text = element.value
-            gui_state.negatives = [x.strip() for x in text.split(",")]
+            gui_state.negatives = [x.strip() for x in text.split(",") if x.strip()]
             if gui_state.negatives:
                 tokens = tokenize(gui_state.negatives).to(device)
                 gui_state.neg_embed = clip_model.encode_text(tokens).float()
@@ -98,9 +100,9 @@ class FeatureFieldModel(NerfactoModel):
             print("Updated softmax temperature to", gui_state.softmax_temp)
 
         # Note: the GUI elements are shown based on alphabetical variable names
-        self.hint_text = ViewerText(name="Note:", disabled=True, default_value="Use , to separate words")
-        self.lang_1_pos_text = ViewerText(name="Language (positives)", default_value="", cb_hook=update_positives)
-        self.lang_2_neg_text = ViewerText(name="Language (negatives)", default_value="", cb_hook=update_negatives)
+        self.hint_text = ViewerText(name="Note:", disabled=True, default_value="Use , to separate labels")
+        self.lang_1_pos_text = ViewerText(name="Positives:", default_value="", cb_hook=update_positives)
+        self.lang_2_neg_text = ViewerText(name="Negatives:", default_value="", cb_hook=update_negatives)
         self.softmax_temp = ViewerNumber(
             name="Softmax temperature", default_value=gui_state.softmax_temp, cb_hook=update_softmax
         )
@@ -207,9 +209,21 @@ class FeatureFieldModel(NerfactoModel):
             # Show the mean similarity if there are multiple positives
             if sims.shape[-1] > 1:
                 sims = sims.mean(dim=-1, keepdim=True)
-        else:
-            raise NotImplementedError
+            outputs["similarity"] = sims
+            return outputs
 
+        # Use paired softmax method as described in the paper with positive and negative texts
+        text_embs = torch.cat([self.gui_state.pos_embed, self.gui_state.neg_embed], dim=0)
+        raw_sims = clip_features @ text_embs.T
+
+        # Broadcast positive label similarities to all negative labels
+        pos_sims, neg_sims = raw_sims[..., :1], raw_sims[..., 1:]
+        pos_sims = pos_sims.broadcast_to(neg_sims.shape)
+        paired_sims = torch.cat([pos_sims, neg_sims], dim=-1)
+
+        # Compute paired softmax
+        probs = (paired_sims / self.gui_state.softmax_temp).softmax(dim=-1)[..., :1]
+        torch.nan_to_num_(probs, nan=0.0)
+        sims, _ = probs.min(dim=-1, keepdim=True)
         outputs["similarity"] = sims
-        print("I AM TRYING TO DO SOMETHING")
         return outputs
