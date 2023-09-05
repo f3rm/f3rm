@@ -1,6 +1,6 @@
 import torch
-from torch import nn
-from torchtyping import TensorType
+from jaxtyping import Float
+from torch import Tensor, nn
 
 
 class FeatureRenderer(nn.Module):
@@ -9,8 +9,8 @@ class FeatureRenderer(nn.Module):
     @classmethod
     def forward(
         cls,
-        feature: TensorType["bs":..., "num_samples", "num_channels"],
-        weights: TensorType["bs":..., "num_samples", 1],
-    ) -> TensorType["bs":..., "num_classes"]:
-        output = torch.sum(weights * feature, dim=-2)
+        features: Float[Tensor, "*bs num_samples num_channels"],
+        weights: Float[Tensor, "*bs num_samples 1"],
+    ) -> Float[Tensor, "*bs num_channels"]:
+        output = torch.sum(weights * features, dim=-2)
         return output
