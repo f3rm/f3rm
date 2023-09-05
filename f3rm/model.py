@@ -11,6 +11,7 @@ from nerfstudio.model_components.losses import (
     scale_gradients_by_distance_squared,
 )
 from nerfstudio.models.nerfacto import NerfactoModel, NerfactoModelConfig
+from nerfstudio.utils.rich_utils import CONSOLE
 from nerfstudio.viewer.server.viewer_elements import ViewerText
 from torch.nn import Parameter
 
@@ -24,13 +25,21 @@ class FeatureFieldModelConfig(NerfactoModelConfig):
     feat_loss_weight: float = 1e-3
 
 
+@dataclass
+class _GuiState:
+    positives: List[str] = field(default_factory=list)
+    pos_embed: Optional[torch.Tensor] = None
+    negatives: List[str] = field(default_factory=list)
+    neg_embed: Optional[torch.Tensor] = None
+
+
 class FeatureFieldModel(NerfactoModel):
     config: FeatureFieldModelConfig
 
     feature_field: FeatureField
     renderer_feature: FeatureRenderer
     pca_proj: Optional[torch.Tensor] = None
-    gui_info: Optional[Dict] = None
+    gui_state: _GuiState = _GuiState()
 
     def populate_modules(self):
         super().populate_modules()
@@ -42,26 +51,48 @@ class FeatureFieldModel(NerfactoModel):
 
         self.feature_field = FeatureField(feature_dim=feature_dim, spatial_distortion=self.field.spatial_distortion)
         self.renderer_feature = FeatureRenderer()
-        self.setup_gui()
+        # Only setup GUI for CLIP features
+        if self.kwargs["metadata"]["feature_type"] == "CLIP":
+            self.setup_gui()
 
     def setup_gui(self):
-        # Only have GUI for CLIP features
-        if self.kwargs["metadata"]["feature_type"] != "CLIP":
-            return
+        from f3rm.features.clip import load, tokenize
+        from f3rm.features.clip_extract import CLIPArgs
 
-        self.gui_info = {}
+        # Load CLIP
+        CONSOLE.print(
+            f"Loading CLIP {CLIPArgs.model_name}. "
+            "If you run out of memory please open a GitHub issue on https://github.com/f3rm/f3rm"
+        )
+        device = self.kwargs["device"]
+        clip_model, _ = load(CLIPArgs.model_name, device=device)
+        gui_state = self.gui_state
 
+        @torch.no_grad()
         def update_positives(element: ViewerText):
             text = element.value
-            self.gui_info["positives"] = [x.strip() for x in text.split(",")]
+            gui_state.positives = [x.strip() for x in text.split(",")]
+            if gui_state.positives:
+                tokens = tokenize(gui_state.positives).to(device)
+                gui_state.pos_embed = clip_model.encode_text(tokens).float()
+                gui_state.pos_embed /= gui_state.pos_embed.norm(dim=-1, keepdim=True)
+            else:
+                gui_state.pos_embed = None
 
+        @torch.no_grad()
         def update_negatives(element: ViewerText):
             text = element.value
-            self.gui_info["negatives"] = [x.strip() for x in text.split(",")]
+            gui_state.negatives = [x.strip() for x in text.split(",")]
+            if gui_state.negatives:
+                tokens = tokenize(gui_state.negatives).to(device)
+                gui_state.neg_embed = clip_model.encode_text(tokens).float()
+                gui_state.neg_embed /= gui_state.neg_embed.norm(dim=-1, keepdim=True)
+            else:
+                gui_state.neg_embed = None
 
         self.hint_text = ViewerText(name="Note:", disabled=True, default_value="Use , to separate words")
-        self.lang_pos_text = ViewerText(name="Language (negatives)", default_value="", cb_hook=update_positives)
-        self.lang_neg_text = ViewerText(name="Language (positives)", default_value="", cb_hook=update_negatives)
+        self.lang_neg_text = ViewerText(name="Language (negatives)", default_value="", cb_hook=update_negatives)
+        self.lang_pos_text = ViewerText(name="Language (positives)", default_value="", cb_hook=update_positives)
 
     def get_param_groups(self) -> Dict[str, List[Parameter]]:
         param_groups = super().get_param_groups()
@@ -151,6 +182,23 @@ class FeatureFieldModel(NerfactoModel):
         if self.kwargs["metadata"]["feature_type"] != "CLIP":
             return outputs
 
-        # Extract positive and negative text
+        # Nothing to do if no positives
+        if not self.gui_state.positives:
+            return outputs
 
+        # Normalize CLIP features rendered by feature field
+        clip_features = outputs["feature"]
+        clip_features /= clip_features.norm(dim=-1, keepdim=True)
+
+        # If there are no negatives, just show the cosine similarity with the positives
+        if not self.gui_state.negatives:
+            sims = clip_features @ self.gui_state.pos_embed.T
+            # Show the mean similarity if there are multiple positives
+            if sims.shape[-1] > 1:
+                sims = sims.mean(dim=-1, keepdim=True)
+        else:
+            raise NotImplementedError
+
+        outputs["similarity"] = sims
+        print("I AM TRYING TO DO SOMETHING")
         return outputs
