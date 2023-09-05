@@ -20,7 +20,7 @@ f3rm_method = MethodSpecification(
         pipeline=VanillaPipelineConfig(
             datamanager=FeatureDataManagerConfig(
                 feature_type="CLIP",
-                dataparser=NerfstudioDataParserConfig(train_split_fraction=0.99),
+                dataparser=NerfstudioDataParserConfig(train_split_fraction=0.95),
                 train_num_rays_per_batch=4096,
                 eval_num_rays_per_batch=4096,
                 camera_optimizer=CameraOptimizerConfig(

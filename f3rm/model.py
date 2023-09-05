@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Dict, List, Type
+from typing import Dict, List, Optional, Tuple, Type
 
 import torch
 import torch.nn.functional as F
@@ -11,6 +11,7 @@ from nerfstudio.model_components.losses import (
     scale_gradients_by_distance_squared,
 )
 from nerfstudio.models.nerfacto import NerfactoModel, NerfactoModelConfig
+from nerfstudio.viewer.server.viewer_elements import ViewerText
 from torch.nn import Parameter
 
 from f3rm.feature_field import FeatureField, FeatureFieldHeadNames
@@ -28,6 +29,8 @@ class FeatureFieldModel(NerfactoModel):
 
     feature_field: FeatureField
     renderer_feature: FeatureRenderer
+    pca_proj: Optional[torch.Tensor] = None
+    gui_info: Optional[Dict] = None
 
     def populate_modules(self):
         super().populate_modules()
@@ -39,6 +42,26 @@ class FeatureFieldModel(NerfactoModel):
 
         self.feature_field = FeatureField(feature_dim=feature_dim, spatial_distortion=self.field.spatial_distortion)
         self.renderer_feature = FeatureRenderer()
+        self.setup_gui()
+
+    def setup_gui(self):
+        # Only have GUI for CLIP features
+        if self.kwargs["metadata"]["feature_type"] != "CLIP":
+            return
+
+        self.gui_info = {}
+
+        def update_positives(element: ViewerText):
+            text = element.value
+            self.gui_info["positives"] = [x.strip() for x in text.split(",")]
+
+        def update_negatives(element: ViewerText):
+            text = element.value
+            self.gui_info["negatives"] = [x.strip() for x in text.split(",")]
+
+        self.hint_text = ViewerText(name="Note:", disabled=True, default_value="Use , to separate words")
+        self.lang_pos_text = ViewerText(name="Language (negatives)", default_value="", cb_hook=update_positives)
+        self.lang_neg_text = ViewerText(name="Language (positives)", default_value="", cb_hook=update_negatives)
 
     def get_param_groups(self) -> Dict[str, List[Parameter]]:
         param_groups = super().get_param_groups()
@@ -101,9 +124,33 @@ class FeatureFieldModel(NerfactoModel):
 
         return outputs
 
+    def get_metrics_dict(self, outputs, batch):
+        metrics_dict = super().get_metrics_dict(outputs, batch)
+        # Compute feature error
+        target_feats = batch["feature"].to(self.device)
+        metrics_dict["feature_error"] = F.mse_loss(outputs["feature"], target_feats)
+        return metrics_dict
+
     def get_loss_dict(self, outputs, batch, metrics_dict=None):
         loss_dict = super().get_loss_dict(outputs, batch, metrics_dict)
         # Compute feature loss
         target_feats = batch["feature"].to(self.device)
         loss_dict["feature_loss"] = self.config.feat_loss_weight * F.mse_loss(outputs["feature"], target_feats)
         return loss_dict
+
+    def get_image_metrics_and_images(
+        self, outputs: Dict[str, torch.Tensor], batch: Dict[str, torch.Tensor]
+    ) -> Tuple[Dict[str, float], Dict[str, torch.Tensor]]:
+        metrics_dict, images_dict = super().get_image_metrics_and_images(outputs, batch)
+        # TODO: add feature outputs
+        return metrics_dict, images_dict
+
+    @torch.no_grad()
+    def get_outputs_for_camera_ray_bundle(self, camera_ray_bundle: RayBundle) -> Dict[str, torch.Tensor]:
+        outputs = super().get_outputs_for_camera_ray_bundle(camera_ray_bundle)
+        if self.kwargs["metadata"]["feature_type"] != "CLIP":
+            return outputs
+
+        # Extract positive and negative text
+
+        return outputs

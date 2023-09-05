@@ -77,3 +77,13 @@ class FeatureDataManager(VanillaDataManager):
         x_idx = (ray_indices[:, 2] * self.scale_w).long()
         batch["feature"] = self.train_features[camera_idx, y_idx, x_idx]
         return ray_bundle, batch
+
+    def next_eval(self, step: int) -> Tuple[RayBundle, Dict]:
+        """Nearest neighbor interpolation of features"""
+        ray_bundle, batch = super().next_eval(step)
+        ray_indices = batch["indices"]
+        camera_idx = ray_indices[:, 0]
+        y_idx = (ray_indices[:, 1] * self.scale_h).long()
+        x_idx = (ray_indices[:, 2] * self.scale_w).long()
+        batch["feature"] = self.eval_features[camera_idx, y_idx, x_idx]
+        return ray_bundle, batch
