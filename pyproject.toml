@@ -37,7 +37,7 @@ line-length = 120
 "Source" = "https://github.com/f3rm/f3rm"
 
 [project.entry-points."nerfstudio.method_configs"]
-f3rm = "f3rm.config:f3rm_method"
+f3rm = "f3rm.f3rm_config:f3rm_method"
 
 [build-system]
 requires = ["setuptools>=43.0.0", "wheel"]

@@ -12,10 +12,15 @@ from nerfstudio.model_components.losses import (
 )
 from nerfstudio.models.nerfacto import NerfactoModel, NerfactoModelConfig
 from nerfstudio.utils.rich_utils import CONSOLE
-from nerfstudio.viewer.server.viewer_elements import ViewerNumber, ViewerText
+from nerfstudio.viewer.server.viewer_elements import (
+    ViewerButton,
+    ViewerNumber,
+    ViewerText,
+)
 from torch.nn import Parameter
 
 from f3rm.feature_field import FeatureField, FeatureFieldHeadNames
+from f3rm.pca_colormap import apply_pca_colormap_return_proj
 from f3rm.renderer import FeatureRenderer
 
 
@@ -52,11 +57,20 @@ class FeatureFieldModel(NerfactoModel):
 
         self.feature_field = FeatureField(feature_dim=feature_dim, spatial_distortion=self.field.spatial_distortion)
         self.renderer_feature = FeatureRenderer()
-        # Only setup GUI for CLIP features
-        if self.kwargs["metadata"]["feature_type"] == "CLIP":
-            self.setup_gui()
+        self.setup_gui()
 
     def setup_gui(self):
+        def refresh_pca_proj(_: ViewerButton):
+            self.pca_proj = None
+            print("PCA projection set to None")
+
+        self.btn_refresh_pca = ViewerButton("Refresh PCA Projection", cb_hook=refresh_pca_proj)
+
+        # Setup GUI for language features if we're using CLIP
+        if self.kwargs["metadata"]["feature_type"] == "CLIP":
+            self.setup_language_gui()
+
+    def setup_language_gui(self):
         from f3rm.features.clip import load, tokenize
         from f3rm.features.clip_extract import CLIPArgs
 
@@ -101,8 +115,8 @@ class FeatureFieldModel(NerfactoModel):
 
         # Note: the GUI elements are shown based on alphabetical variable names
         self.hint_text = ViewerText(name="Note:", disabled=True, default_value="Use , to separate labels")
-        self.lang_1_pos_text = ViewerText(name="Positives:", default_value="", cb_hook=update_positives)
-        self.lang_2_neg_text = ViewerText(name="Negatives:", default_value="", cb_hook=update_negatives)
+        self.lang_1_pos_text = ViewerText(name="Language (Positives)", default_value="", cb_hook=update_positives)
+        self.lang_2_neg_text = ViewerText(name="Language (Negatives)", default_value="", cb_hook=update_negatives)
         self.softmax_temp = ViewerNumber(
             name="Softmax temperature", default_value=gui_state.softmax_temp, cb_hook=update_softmax
         )
@@ -192,11 +206,12 @@ class FeatureFieldModel(NerfactoModel):
     @torch.no_grad()
     def get_outputs_for_camera_ray_bundle(self, camera_ray_bundle: RayBundle) -> Dict[str, torch.Tensor]:
         outputs = super().get_outputs_for_camera_ray_bundle(camera_ray_bundle)
-        if self.kwargs["metadata"]["feature_type"] != "CLIP":
-            return outputs
 
-        # Nothing to do if no positives
-        if not self.gui_state.positives:
+        # Compute PCA of features separately, so we can reuse the same projection matrix
+        outputs["feature_pca"], self.pca_proj, *_ = apply_pca_colormap_return_proj(outputs["feature"], self.pca_proj)
+
+        # Nothing else to do if not CLIP features or no positives
+        if self.kwargs["metadata"]["feature_type"] != "CLIP" or not self.gui_state.positives:
             return outputs
 
         # Normalize CLIP features rendered by feature field
