@@ -12,7 +12,7 @@ from nerfstudio.model_components.losses import (
 )
 from nerfstudio.models.nerfacto import NerfactoModel, NerfactoModelConfig
 from nerfstudio.utils.rich_utils import CONSOLE
-from nerfstudio.viewer.server.viewer_elements import ViewerText
+from nerfstudio.viewer.server.viewer_elements import ViewerNumber, ViewerText
 from torch.nn import Parameter
 
 from f3rm.feature_field import FeatureField, FeatureFieldHeadNames
@@ -31,6 +31,7 @@ class _GuiState:
     pos_embed: Optional[torch.Tensor] = None
     negatives: List[str] = field(default_factory=list)
     neg_embed: Optional[torch.Tensor] = None
+    softmax_temp: float = 10.0
 
 
 class FeatureFieldModel(NerfactoModel):
@@ -61,7 +62,7 @@ class FeatureFieldModel(NerfactoModel):
 
         # Load CLIP
         CONSOLE.print(
-            f"Loading CLIP {CLIPArgs.model_name}. "
+            f"Loading CLIP {CLIPArgs.model_name} for Nerfstudio viewer. "
             "If you run out of memory please open a GitHub issue on https://github.com/f3rm/f3rm"
         )
         device = self.kwargs["device"]
@@ -70,6 +71,7 @@ class FeatureFieldModel(NerfactoModel):
 
         @torch.no_grad()
         def update_positives(element: ViewerText):
+            # Embed positive texts with CLIP
             text = element.value
             gui_state.positives = [x.strip() for x in text.split(",")]
             if gui_state.positives:
@@ -81,6 +83,7 @@ class FeatureFieldModel(NerfactoModel):
 
         @torch.no_grad()
         def update_negatives(element: ViewerText):
+            # Embed negative texts with CLIP
             text = element.value
             gui_state.negatives = [x.strip() for x in text.split(",")]
             if gui_state.negatives:
@@ -90,9 +93,17 @@ class FeatureFieldModel(NerfactoModel):
             else:
                 gui_state.neg_embed = None
 
+        def update_softmax(element: ViewerNumber):
+            gui_state.softmax_temp = element.value
+            print("Updated softmax temperature to", gui_state.softmax_temp)
+
+        # Note: the GUI elements are shown based on alphabetical variable names
         self.hint_text = ViewerText(name="Note:", disabled=True, default_value="Use , to separate words")
-        self.lang_neg_text = ViewerText(name="Language (negatives)", default_value="", cb_hook=update_negatives)
-        self.lang_pos_text = ViewerText(name="Language (positives)", default_value="", cb_hook=update_positives)
+        self.lang_1_pos_text = ViewerText(name="Language (positives)", default_value="", cb_hook=update_positives)
+        self.lang_2_neg_text = ViewerText(name="Language (negatives)", default_value="", cb_hook=update_negatives)
+        self.softmax_temp = ViewerNumber(
+            name="Softmax temperature", default_value=gui_state.softmax_temp, cb_hook=update_softmax
+        )
 
     def get_param_groups(self) -> Dict[str, List[Parameter]]:
         param_groups = super().get_param_groups()
