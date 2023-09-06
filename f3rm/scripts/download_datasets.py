@@ -1,4 +1,5 @@
 import argparse
+import hashlib
 import os
 import zipfile
 
@@ -7,6 +8,8 @@ import gdown
 _dataset_to_url = {
     "panda": "",
 }
+
+_dataset_to_md5 = {"panda": ""}
 
 
 def download_dataset(name: str, save_dir: str):
@@ -19,9 +22,18 @@ def download_dataset(name: str, save_dir: str):
     if os.path.exists(zip_path):
         raise RuntimeError(f"{zip_path} already exists! Delete it if you want to re-download.")
 
-    # Download from Google Drive, unzip and delete the zip file
+    # Download from Google Drive
     print(f"Downloading {name} datasets to {save_dir}...")
     gdown.download(url, output=zip_path)
+
+    # Check md5 matches
+    expected_md5 = _dataset_to_md5[name]
+    with open(zip_path, "rb") as f:
+        actual_md5 = hashlib.md5(f.read()).hexdigest()
+    if actual_md5 != expected_md5:
+        raise RuntimeError(f"MD5 mismatch for {zip_path}! Expected {expected_md5}, got {actual_md5}.")
+
+    # Unzip and delete the zip file
     with zipfile.ZipFile(zip_path, "r") as f:
         f.extractall(save_dir)
     os.remove(zip_path)

@@ -40,7 +40,7 @@ line-length = 120
 f3rm = "f3rm.f3rm_config:f3rm_method"
 
 [project.scripts]
-f3rm-download-data = "f3rm.utils.download_datasets:main"
+f3rm-download-data = "f3rm.scripts.download_datasets:main"
 
 [tool.setuptools.packages]
 find = { include = ["f3rm", "f3rm.*"] }

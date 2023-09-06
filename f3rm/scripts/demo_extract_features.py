@@ -6,15 +6,12 @@ from PIL import Image
 
 from f3rm.features.clip_extract import extract_clip_features
 from f3rm.features.dino_extract import extract_dino_features
-from f3rm.utils.pca_colormap import apply_pca_colormap
+from f3rm.pca_colormap import apply_pca_colormap
 
 _MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
-_IMAGE_DIR = os.path.join(_MODULE_DIR, "images")
+_IMAGE_DIR = os.path.join(_MODULE_DIR, "../../scripts/images")
 
-image_paths = [
-    os.path.join(_IMAGE_DIR, name)
-    for name in ["frame_1.png", "frame_2.png", "frame_3.png"]
-]
+image_paths = [os.path.join(_IMAGE_DIR, name) for name in ["frame_1.png", "frame_2.png", "frame_3.png"]]
 
 
 @torch.no_grad()
@@ -32,9 +29,7 @@ def demo_extract_features():
     # Visualize the embeddings
     plt.figure()
     plt.suptitle("CLIP (2nd row) and DINO (3rd row) Features PCA")
-    for i, (image_path, clip_pca_, dino_pca_) in enumerate(
-        zip(image_paths, clip_pca, dino_pca)
-    ):
+    for i, (image_path, clip_pca_, dino_pca_) in enumerate(zip(image_paths, clip_pca, dino_pca)):
         plt.subplot(3, len(image_paths), i + 1)
         plt.imshow(Image.open(image_path))
         plt.title(os.path.basename(image_path))
