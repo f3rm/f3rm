@@ -9,7 +9,7 @@ from f3rm.features.dino_extract import extract_dino_features
 from f3rm.pca_colormap import apply_pca_colormap
 
 _MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
-_IMAGE_DIR = os.path.join(_MODULE_DIR, "../../scripts/images")
+_IMAGE_DIR = os.path.join(_MODULE_DIR, "images")
 
 image_paths = [os.path.join(_IMAGE_DIR, name) for name in ["frame_1.png", "frame_2.png", "frame_3.png"]]
 
