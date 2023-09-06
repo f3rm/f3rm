@@ -14,6 +14,14 @@ that generalizes across object poses, shapes, appearances and categories.
 <sup>2 </sup>[Institute of AI and Fundamental Interactions (IAIFI)](https://iaifi.org/)<br>
 <sup>* </sup>Indicates equal contribution
 
+-----
+
+**Table of Contents**
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Citation](#citation)
+
 ## Code
 
 We currently release our implementation for training feature fields. We will release our custom viewer and the robot
