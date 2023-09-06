@@ -24,7 +24,8 @@ F3RM is built on top of [Nerfstudio](https://github.com/nerfstudio-project/nerfs
 
 ### Installation
 
-**Note:** this repo requires an NVIDIA GPU with CUDA 11.7+ for NeRF and feature field distillation.
+**Note:** this repo requires an NVIDIA GPU with CUDA 11.7+ for NeRF and feature field distillation. We tested our
+implementation on a RTX3090 with 24GB of VRAM.
 
 ```bash
 # Clone the repo
@@ -76,17 +77,38 @@ instructions in the [Nerfstudio documentation](https://docs.nerf.studio/en/lates
 
 ### Using our Custom Viewer
 
-Coming soon...
+Our custom viewer is coming soon! Keep an eye on out for updates.
 
 ### Using the Nerfstudio Viewer
 
-Screenshot
+Once you have started training the feature field with `ns-train`, Nerfstudio will print a URL to the viewer in the
+terminal (the URL will start with https://viewer.nerf.studio). You can open this URL to open the Nerfstudio viewer in
+your browser to visualize training progress and the feature field.
 
-How to use
+Note that if you are using a remote server, you will need to forward the port to your local machine
+([instructions](https://docs.nerf.studio/en/latest/quickstart/viewer_quickstart.html#training-on-a-remote-machine).
+The default port used by Nerfstudio is 7007, but check the viewer URL to make sure. For a general guide on how to use
+the Nerfstudio viewer, check out
+their [documentation](https://docs.nerf.studio/en/latest/quickstart/viewer_quickstart.html).
 
-If you distill CLIP features, these appear...
+**Visualizing the Feature Field PCA:**
 
-Please see [viewer.md](viewer.md) for more details.
+- To visualize the PCA of the features, select `feature_pca` in the `Render Options -> Output Render` dropdown box.
+    - Note: the initial PCA projection matrix is computed based on the features rendered at your current viewpoint.
+- To update the PCA projection, click the "Refresh PCA Projection" button under `Trainer/pipeline/model` near the bottom
+  of the controls.
+
+**Language Interaction with CLIP Feature Fields:**
+
+If you are distilling CLIP features (the default feature type), then you will see the following additional controls
+under `Trainer/pipeline/model`.
+
+You can enter positive and negative text queries (separated by "," commas), which will compute similarity heatmaps. To
+visualize these heatmaps, select `similarity` in the `Render Options -> Output Render` dropdown box. Try playing around
+with different language queries and see what results you get!
+
+If multiple positive queries are specified, we average their CLIP embeddings before computing the pair-wise softmax
+described in Section 3.3 of the [paper](https://arxiv.org/abs/2308.07931). The default temperature of 0.1 works well.
 
 ### Extracting CLIP and DINO Features
 
@@ -100,12 +122,14 @@ use these features for your own NeRF pipeline or for other downstream applicatio
   `python scripts/demo_clip_features.py`. This script will create a plot showing the similarity heatmaps for a given
   text query, and will save a plot to `demo_clip_features-{text_query}.png`.
 
-### Acknowledgements
+## Acknowledgements
+
 We thank the authors of the following projects for making their code open source:
 
 - [Nerfstudio](https://github.com/nerfstudio-project/nerfstudio)
 - [LERF](https://github.com/kerrj/lerf)
-
+- [CLIP](https://github.com/openai/CLIP)
+- [dino-vit-features](https://github.com/ShirAmir/dino-vit-features)
 
 ## Citation
 
