@@ -66,14 +66,14 @@ ns-train --help
 ### Downloading Example Datasets
 
 We provide example datasets which you can download using the `f3rm-download-data` command. By default, the script will
-download all the datasets (requires 1.5GB disk space) into the `datasets/` directory relative to your current directory.
+download all the datasets (requires <span style="color:red">1.5GB</span> disk space) into the `datasets/` directory relative to your current directory.
 
-Run `f3rm-download-data -h` to see how to change these options.
+Run `f3rm-download-data -h` to see how to download specific datasets or set your own save directory.
 
 ### Training a Feature Field
 
 We provide the functionality to train a NeRF and distill features in parallel. The default features we distill are CLIP
-features. You can distill DINO features by setting `--pipeline.datamanager.feature-type DINO`.
+features. You can distill DINO features instead by adding `--pipeline.datamanager.feature-type DINO`.
 
 ```bash
 ns-train f3rm --data <data_folder>
