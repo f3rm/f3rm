@@ -109,7 +109,7 @@ their [documentation](https://docs.nerf.studio/en/latest/quickstart/viewer_quick
 **Language Interaction with CLIP Feature Fields:**
 
 If you are distilling CLIP features (the default feature type), then you will see the following additional controls
-under `Trainer/pipeline/model`.
+under `Trainer/pipeline/model` near the bottom of the controls panel.
 
 You can enter positive and negative text queries (separated by "," commas), which will compute similarity heatmaps. To
 visualize these heatmaps, select `similarity` in the `Render Options -> Output Render` dropdown box. Try playing around
