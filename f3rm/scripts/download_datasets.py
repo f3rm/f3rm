@@ -5,6 +5,7 @@ import zipfile
 
 import gdown
 
+# Note: these are all ZIP files on Google Drive
 _dataset_to_url = {
     "panda": "",
 }
