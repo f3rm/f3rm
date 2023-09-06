@@ -101,22 +101,35 @@ their [documentation](https://docs.nerf.studio/en/latest/quickstart/viewer_quick
 
 **Visualizing the Feature Field PCA:**
 
-- To visualize the PCA of the features, select `feature_pca` in the `Render Options -> Output Render` dropdown box.
-    - Note: the initial PCA projection matrix is computed based on the features rendered at your current viewpoint.
-- To update the PCA projection, click the "Refresh PCA Projection" button under `Trainer/pipeline/model` near the bottom
-  of the controls.
+To visualize the PCA of the features, select `feature_pca` in the `Render Options -> Output Render` dropdown box.
+Note that the initial PCA projection matrix is computed based on the features rendered at your current viewpoint.
+
+<img src="assets/ns-viewer_feature-pca.png" width="400" alt="feature_pca in Output Render dropdown">
+
+To update the PCA projection, click the "Refresh PCA Projection" button under `Trainer/pipeline/model` near the bottom
+of the controls.
 
 **Language Interaction with CLIP Feature Fields:**
 
 If you are distilling CLIP features (the default feature type), then you will see the following additional controls
-under `Trainer/pipeline/model` near the bottom of the controls panel.
+under `Trainer/pipeline/model` near the bottom of the controls panel. You can enter positive and negative text queries
+(separated by `,` commas), which will compute similarity heatmaps.
 
-You can enter positive and negative text queries (separated by "," commas), which will compute similarity heatmaps. To
-visualize these heatmaps, select `similarity` in the `Render Options -> Output Render` dropdown box. Try playing around
-with different language queries and see what results you get!
+<img src="assets/ns-viewer_f3rm-controls.png" width="400" alt="Additional Controls for F3RM in the Nerfstudio Viewer">
 
-If multiple positive queries are specified, we average their CLIP embeddings before computing the pair-wise softmax
-described in Section 3.3 of the [paper](https://arxiv.org/abs/2308.07931). The default temperature of 0.1 works well.
+Then, to visualize these heatmaps, select `similarity` in the `Render Options -> Output Render` dropdown box.
+
+<img src="assets/ns-viewer_similarity.png" width="400" alt="similarity in Output Render dropdown">
+
+We show the similarity heatmap for the "Baymax" query in the controls above over the `panda/scene_001` dataset (you can
+download it using the `f3rm-download-data panda` command). Try playing around with different language queries and see 
+what results you get!
+
+<img src="assets/ns-viewer_baymax.png" height="250" alt="similarity in Output Render dropdown">
+
+**Note:** if multiple positive queries are specified, we average their CLIP embeddings before computing the pair-wise
+softmax described in Section 3.3 of the [paper](https://arxiv.org/abs/2308.07931). The default temperature of 0.1 works
+well.
 
 ### Extracting CLIP and DINO Features
 
@@ -127,7 +140,8 @@ use these features for your own NeRF pipeline or for other downstream applicatio
   This will create a plot showing the PCA of the CLIP and DINO features. The plot is saved
   to `demo_extract_features.png`.
 - For details on how to extract CLIP features and compare the extracted features with CLIP text embeddings, run
-  `python f3rm/scripts/demo_clip_features.py`. This script will create a plot showing the similarity heatmaps for a given
+  `python f3rm/scripts/demo_clip_features.py`. This script will create a plot showing the similarity heatmaps for a
+  given
   text query, and will save a plot to `demo_clip_features-{text_query}.png`.
 
 ## Acknowledgements
