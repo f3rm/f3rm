@@ -151,7 +151,7 @@ We thank the authors of the following projects for making their code open source
 - [Nerfstudio](https://github.com/nerfstudio-project/nerfstudio)
 - [LERF](https://github.com/kerrj/lerf)
 - [CLIP](https://github.com/openai/CLIP)
-- [dino-vit-features](https://github.com/ShirAmir/dino-vit-features)
+- [DINO](https://github.com/facebookresearch/dino) and [dino-vit-features](https://github.com/ShirAmir/dino-vit-features)
 
 ## Citation
 
