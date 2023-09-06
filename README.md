@@ -57,7 +57,7 @@ ns-train --help
 ### Downloading Example Datasets
 
 We provide example datasets which you can download using the `f3rm-download-data` command. By default, the script will
-download all the datasets into the `datasets/` directory relative to your current directory.
+download all the datasets (requires 1.5GB disk space) into the `datasets/` directory relative to your current directory.
 
 Run `f3rm-download-data -h` to see how to change these options.
 
@@ -99,6 +99,13 @@ use these features for your own NeRF pipeline or for other downstream applicatio
 - For details on how to extract CLIP features and compare the extracted features with CLIP text embeddings, run
   `python scripts/demo_clip_features.py`. This script will create a plot showing the similarity heatmaps for a given
   text query, and will save a plot to `demo_clip_features-{text_query}.png`.
+
+### Acknowledgements
+We thank the authors of the following projects for making their code open source:
+
+- [Nerfstudio](https://github.com/nerfstudio-project/nerfstudio)
+- [LERF](https://github.com/kerrj/lerf)
+
 
 ## Citation
 
