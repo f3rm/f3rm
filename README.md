@@ -94,7 +94,7 @@ terminal (the URL will start with https://viewer.nerf.studio). You can open this
 your browser to visualize training progress and the feature field.
 
 Note that if you are using a remote server, you will need to forward the port to your local machine
-([instructions](https://docs.nerf.studio/en/latest/quickstart/viewer_quickstart.html#training-on-a-remote-machine).
+([instructions](https://docs.nerf.studio/en/latest/quickstart/viewer_quickstart.html#training-on-a-remote-machine)).
 The default port used by Nerfstudio is 7007, but check the viewer URL to make sure. For a general guide on how to use
 the Nerfstudio viewer, check out
 their [documentation](https://docs.nerf.studio/en/latest/quickstart/viewer_quickstart.html).
@@ -125,7 +125,7 @@ We show the similarity heatmap for the "Baymax" query in the controls above over
 download it using the `f3rm-download-data panda` command). Try playing around with different language queries and see 
 what results you get!
 
-<img src="assets/ns-viewer_baymax.png" height="250" alt="similarity in Output Render dropdown">
+<img src="assets/ns-viewer_baymax.png" width="500" alt="similarity in Output Render dropdown">
 
 **Note:** if multiple positive queries are specified, we average their CLIP embeddings before computing the pair-wise
 softmax described in Section 3.3 of the [paper](https://arxiv.org/abs/2308.07931). The default temperature of 0.1 works
