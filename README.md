@@ -121,9 +121,9 @@ Then, to visualize these heatmaps, select `similarity` in the `Render Options ->
 
 <img src="assets/ns-viewer_similarity.png" width="400" alt="similarity in Output Render dropdown">
 
-We show the similarity heatmap for the "Baymax" query in the controls above over the `panda/scene_001` dataset (you can
-download it using the `f3rm-download-data panda` command). Try playing around with different language queries and see 
-what results you get!
+We show the similarity heatmap over the `panda/scene_001` dataset for the "Baymax" query, with the negatives in the
+controls above (you can download this dataset using the `f3rm-download-data panda` command). Try playing around with
+different language queries and see what results you get!
 
 <img src="assets/ns-viewer_baymax.png" width="500" alt="similarity in Output Render dropdown">
 
