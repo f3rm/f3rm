@@ -6,7 +6,7 @@ from PIL import Image
 
 from f3rm.features.clip_extract import extract_clip_features
 from f3rm.features.dino_extract import extract_dino_features
-from f3rm.pca_colormap import apply_pca_colormap
+from f3rm.utils.pca_colormap import apply_pca_colormap
 
 _MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
 _IMAGE_DIR = os.path.join(_MODULE_DIR, "images")

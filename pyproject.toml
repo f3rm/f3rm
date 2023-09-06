@@ -39,6 +39,9 @@ line-length = 120
 [project.entry-points."nerfstudio.method_configs"]
 f3rm = "f3rm.f3rm_config:f3rm_method"
 
+[project.scripts]
+f3rm-download-data = "f3rm.utils.download_datasets:main"
+
 [tool.setuptools.packages]
 find = { include = ["f3rm", "f3rm.*"] }
 

@@ -14,10 +14,15 @@ that generalizes across object poses, shapes, appearances and categories.
 <sup>2 </sup>[Institute of AI and Fundamental Interactions (IAIFI)](https://iaifi.org/)<br>
 <sup>* </sup>Indicates equal contribution
 
-## Installation
+## Code
+
+We currently release our implementation for training feature fields. We will release our custom viewer and the robot
+manipulation code soon.
 
 F3RM is built on top of [Nerfstudio](https://github.com/nerfstudio-project/nerfstudio) following their
 [guide for adding new methods](https://docs.nerf.studio/en/latest/developer_guides/new_methods.html).
+
+### Installation
 
 **Note:** this repo requires an NVIDIA GPU with CUDA 11.7+ for NeRF and feature field distillation.
 
@@ -49,6 +54,13 @@ ns-train --help
 
 ## Usage
 
+### Downloading Example Datasets
+
+We provide example datasets which you can download using the `f3rm-download-data` command. By default, the script will
+download all the datasets into the `datasets/` directory relative to your current directory.
+
+Run `f3rm-download-data -h` to see how to change these options.
+
 ### Training a Feature Field
 
 We provide the functionality to train a NeRF and distill features in parallel. The default features we distill are CLIP
@@ -58,10 +70,9 @@ features. You can distill DINO features by setting `--pipeline.datamanager.featu
 ns-train f3rm --data <data_folder>
 ```
 
-We provide example datasets which you can download with `f3rm-download-data`. This command downloads datasets under
-`f3rm_datasets/scene_001`, `f3rm_datasets/scene_002`, and `f3rm_datasets/scene_003` in your current directory.
-Alternatively, you can prepare your own datasets following the instructions in the
-[Nerfstudio documentation](https://docs.nerf.studio/en/latest/quickstart/custom_dataset.html).
+You can try F3RM with the example datasets which you can download following the
+instructions [here](#downloading-example-datasets). Alternatively, you can prepare your own datasets following the
+instructions in the [Nerfstudio documentation](https://docs.nerf.studio/en/latest/quickstart/custom_dataset.html).
 
 ### Using our Custom Viewer
 
@@ -88,7 +99,6 @@ use these features for your own NeRF pipeline or for other downstream applicatio
 - For details on how to extract CLIP features and compare the extracted features with CLIP text embeddings, run
   `python scripts/demo_clip_features.py`. This script will create a plot showing the similarity heatmaps for a given
   text query, and will save a plot to `demo_clip_features-{text_query}.png`.
-
 
 ## Citation
 

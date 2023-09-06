@@ -20,7 +20,7 @@ from nerfstudio.viewer.server.viewer_elements import (
 from torch.nn import Parameter
 
 from f3rm.feature_field import FeatureField, FeatureFieldHeadNames
-from f3rm.pca_colormap import apply_pca_colormap_return_proj
+from f3rm.utils.pca_colormap import apply_pca_colormap_return_proj
 from f3rm.renderer import FeatureRenderer
 
 
