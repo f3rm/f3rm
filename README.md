@@ -78,7 +78,8 @@ We provide example datasets which you can download using the `f3rm-download-data
 download all the datasets (requires ~300MB disk space) into the `datasets/` directory relative to your current
 directory.
 
-Run `f3rm-download-data -h` to see how to download specific datasets or set your own save directory.
+Run `f3rm-download-data -h` to see how to download specific datasets or set your own save directory. We provide a short
+description of each dataset in [assets/datasets.md](assets/datasets.md).
 
 ### Training a Feature Field
 
@@ -130,7 +131,7 @@ their [documentation](https://docs.nerf.studio/en/latest/quickstart/viewer_quick
 To visualize the PCA of the features, select `feature_pca` in the `Render Options -> Output Render` dropdown box.
 Note that the initial PCA projection matrix is computed based on the features rendered at your current viewpoint.
 
-<img src="assets/ns-viewer_feature-pca.png" width="400" alt="feature_pca in Output Render dropdown">
+<img src="assets/images/ns_viewer/feature-pca_option.png" width="400" alt="feature_pca in Output Render dropdown">
 
 To recompute the PCA projection based on your current viewpoint, click the "Refresh PCA Projection" button under
 `Trainer/pipeline/model` near the bottom of the controls.
@@ -141,17 +142,17 @@ If you are distilling CLIP features (the default feature type), then you will se
 under `Trainer/pipeline/model` near the bottom of the controls panel. You can enter positive and negative text queries
 (separated by `,` commas), which will compute similarity heatmaps.
 
-<img src="assets/ns-viewer_f3rm-controls.png" width="400" alt="Additional Controls for F3RM in the Nerfstudio Viewer">
+<img src="assets/images/ns_viewer/f3rm_controls.png" width="400" alt="Additional Controls for F3RM in the Nerfstudio Viewer">
 
 Then, to visualize these heatmaps, select `similarity` in the `Render Options -> Output Render` dropdown box.
 
-<img src="assets/ns-viewer_similarity.png" width="400" alt="similarity in Output Render dropdown">
+<img src="assets/images/ns_viewer/similarity_option.png" width="400" alt="similarity in Output Render dropdown">
 
 We show the similarity heatmap over the `panda/scene_001` dataset for the "Baymax" query, with the negatives in the
 controls above (you can download this dataset using the `f3rm-download-data panda` command). Try playing around with
 different language queries and see what results you get!
 
-<img src="assets/ns-viewer_baymax.png" width="500" alt="similarity in Output Render dropdown">
+<img src="assets/images/ns_viewer/baymax_heatmap.png" width="500" alt="similarity in Output Render dropdown">
 
 **Note:** if multiple positive queries are specified, we average their CLIP embeddings before computing the pair-wise
 softmax described in Section 3.3 of the [paper](https://arxiv.org/abs/2308.07931). The default temperature of 0.1 works
@@ -182,7 +183,7 @@ The easiest way to fix this issue is to install the correct CUDA Toolkit version
 
 1. Install CUDA toolkit via conda: `conda install -c "nvidia/label/cuda-11.8.0" cuda-toolkit`
 2. Set `CUDA_HOME` to the conda CUDA toolkit path: `export CUDA_HOME=$CONDA_PREFIX`
-   - Note: you only need to do this for the tiny-cuda-nn installation, no need to set this permanently.
+    - Note: you only need to do this for the tiny-cuda-nn installation, no need to set this permanently.
 3. Try installing tiny-cuda-nn again (this will take a few minutes):
    `pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch`
 
