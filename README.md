@@ -63,7 +63,7 @@ conda activate f3rm
 pip install torch==2.0.1+cu118 torchvision==0.15.2+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
 
 # Install CUDA toolkit, this should not conflict with your system CUDA installation.
-# You can skip this if you already have CUDA 11.8 installed on your system.
+# You can skip this if you already have CUDA 11.8 installed (you can check this using `nvcc --version`)
 conda install -c "nvidia/label/cuda-11.8.0" cuda-toolkit
 export CUDA_HOME=$CONDA_PREFIX
 
