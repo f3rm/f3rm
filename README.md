@@ -167,7 +167,7 @@ the enter key to submit the query.
 <img src="assets/images/ns_viewer/f3rm_controls.png" width="400" alt="Additional Controls for F3RM in the Nerfstudio Viewer">
 
 To visualize these heatmaps, select `similarity` in the `Render Options -> Output Render` dropdown box. It may take a
-few seconds for this option to show up as we load CLIP on the first query.
+few seconds for this option to show up on the first query, as we load CLIP lazily.
 
 <img src="assets/images/ns_viewer/similarity_option.png" width="400" alt="similarity in Output Render dropdown">
 
