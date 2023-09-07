@@ -82,7 +82,7 @@ download all the datasets (requires ~300MB disk space) into the `datasets/` dire
 directory.
 
 Run `f3rm-download-data -h` to see how to download specific datasets or set your own save directory. We provide a short
-description of each dataset in [assets/datasets.md](assets/datasets.md).
+description and preview of each dataset in [assets/datasets.md](assets/datasets.md).
 
 ### Training a Feature Field
 
