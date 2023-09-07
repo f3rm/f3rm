@@ -56,8 +56,8 @@ interesting objects which you can query via language using CLIP feature fields.
 
 ### `george_the_panda`
 
-<img src="images/dataset_previews/rooms/george_the_panda_1.jpg" width="400" alt="rooms/george_the_panda">&nbsp;
-<img src="images/dataset_previews/rooms/george_the_panda_2.jpg" width="400" alt="rooms/george_the_panda">
+<img src="images/dataset_previews/rooms/george_the_panda_1.jpg" width="400" alt="rooms/george_the_panda_1">&nbsp;
+<img src="images/dataset_previews/rooms/george_the_panda_2.jpg" width="400" alt="rooms/george_the_panda_2">
 
 This scene is of the room that George, our Panda robot, used to live in. The table and room contains a variety of
 objects, many of which are from the YCB dataset. There are 70 images with an original resolution of 3000x4000
@@ -71,3 +71,17 @@ up by the CLIP feature field as the source images do not get a good view of the 
   cube, cleaning spray, toy gun
 - **In the room:** cabinet, office chairs, monitors
 
+### `pluto_the_spot`
+
+<img src="images/dataset_previews/rooms/pluto_the_spot_1.jpg" width="400" alt="rooms/pluto_the_spot_1">&nbsp;
+<img src="images/dataset_previews/rooms/pluto_the_spot_2.jpg" width="400" alt="rooms/pluto_the_spot_2">
+
+
+This scene is of the room that Pluto, our Spot robot, lives in. You may notice that this is the same room as the
+`george_the_panda` dataset and you'd be right! There are `x` images in this scene. There are a variety of objects, both
+small and large in this scene.
+
+**Objects Present:**
+
+- **Small/medium objects:** fill in
+- **Large objects:** fill in
