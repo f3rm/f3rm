@@ -10,6 +10,7 @@ ___
     - [`scene_001`](#scene_001)
     - [`scene_002`](#scene_002)
     - [`scene_003`](#scene_003)
+    - [`scene_004`](#scene_004)
 - [`rooms`](#rooms)
     - [`george_the_panda`](#george_the_panda)
     - [`pluto_the_spot`](#pluto_the_spot)
@@ -49,6 +50,19 @@ Another test scene we used for language-guided manipulation.
 **Objects Present:** spatula, mug, water jug, blue screwdriver, black screwdriver, measuring beaker, roll of tape,
 wood block
 
+### `scene_004`
+
+<img src="images/dataset_previews/panda/scene_004.jpg" width="350" alt="panda/scene_004">
+
+This is a cluttered scene with many toys which was used in the figure for "Grasping in a Cluttered Scene" in the
+paper. If you train a CLIP feature field for this scene, you should be able to observe clear separation in the
+features between the different toys when querying via language. Some queries you could try out include "lego", "
+hedgehog", "bowtie" and "colorful toys".
+
+**Objects Present:** medium-size Baymax plush toy, large Baymax plush toy, hedgehog plush toy, caterpillar plush toy,
+toy gun, green toy with strands, teddy bear with bowtie, lego house, lego figure, mango
+
+
 ___
 
 ## `rooms`
@@ -77,7 +91,6 @@ up by the CLIP feature field as the source images do not get a good view of the 
 
 <img src="images/dataset_previews/rooms/pluto_the_spot_1.jpg" width="400" alt="rooms/pluto_the_spot_1">&nbsp;
 <img src="images/dataset_previews/rooms/pluto_the_spot_2.jpg" width="400" alt="rooms/pluto_the_spot_2">
-
 
 This scene is of the room that Pluto, our Spot robot, lives in. You may notice that this is the same room as the
 `george_the_panda` dataset and you'd be right! There are `x` images in this scene. There are a variety of objects, both

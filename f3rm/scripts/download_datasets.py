@@ -17,7 +17,7 @@ _datasets = [
     _Dataset(
         name="panda",
         url="https://drive.google.com/uc?id=15iNJo57bIM2NMyKVs4JU_nzNvFzJ1ZRU",
-        md5="37b3b5240a1e68fec6cc13ac0a8dd644",
+        md5="72ddb0a18e824ef23a9c3bb7a6bd9244",
     ),
     _Dataset(
         name="rooms",
