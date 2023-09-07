@@ -56,8 +56,8 @@ interesting objects which you can query via language using CLIP feature fields.
 
 ### `george_the_panda`
 
-<img src="images/dataset_previews/rooms/george_the_panda_1.jpg" width="380" alt="rooms/george_the_panda">&nbsp;
-<img src="images/dataset_previews/rooms/george_the_panda_2.jpg" width="380" alt="rooms/george_the_panda">
+<img src="images/dataset_previews/rooms/george_the_panda_1.jpg" width="400" alt="rooms/george_the_panda">&nbsp;
+<img src="images/dataset_previews/rooms/george_the_panda_2.jpg" width="400" alt="rooms/george_the_panda">
 
 This scene is of the room that George our Panda robot used to live in. The table and room contains a variety of objects,
 including those from the YCB dataset. Some of these objects may not be entirely picked up by the CLIP feature field as
@@ -65,8 +65,8 @@ the source images do not get a good view of the object.
 
 **Objects Present:**
 
-- **On the table:** electric screwdriver, Cheez-It box, Domino Sugar box, mustard bottle, strawberries, lemon, soup cans, can of
-  SPAM, can of tuna, brick, Lego toy, white bowl, tennis ball, baseball, WD-40 can, Jello box, Rubik's cube, cleaning
-  spray, toy gun
+- **On the table:** electric screwdriver, Cheez-It box, Domino Sugar box, mustard bottle, strawberries, lemon, soup
+  cans, can of SPAM, can of tuna, brick, Lego toy, white bowl, tennis ball, baseball, WD-40 can, Jello box, Rubik's
+  cube, cleaning spray, toy gun
 - **In the room:** cabinet, office chairs, monitors
 
