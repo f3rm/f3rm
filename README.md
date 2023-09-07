@@ -12,7 +12,8 @@ that generalizes across object poses, shapes, appearances and categories.
 [Phillip Isola](https://people.csail.mit.edu/phillipi/)<sup>1</sup>**<br>
 <sup>1 </sup>[MIT CSAIL](https://www.csail.mit.edu/),
 <sup>2 </sup>[Institute of AI and Fundamental Interactions (IAIFI)](https://iaifi.org/)<br>
-<sup>* </sup>Indicates equal contribution
+<sup>* </sup>Indicates equal contribution<br>
+CoRL 2023 (Oral)
 
 -----
 
@@ -86,7 +87,7 @@ instructions in the [Nerfstudio documentation](https://docs.nerf.studio/en/lates
 
 ### Using our Custom Viewer
 
-Our custom viewer is coming soon! Keep an eye on out for updates.
+Our custom web viewer is coming soon! Keep an eye on out for updates.
 
 ### Using the Nerfstudio Viewer
 
