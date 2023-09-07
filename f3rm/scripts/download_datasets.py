@@ -7,10 +7,14 @@ import gdown
 
 # Note: these are all ZIP files on Google Drive
 _dataset_to_url = {
-    "panda": "",
+    "panda": "https://drive.google.com/uc?id=15iNJo57bIM2NMyKVs4JU_nzNvFzJ1ZRU",
+    "rooms": "https://drive.google.com/uc?id=1Kl84WHBN5VGTyuzKE9nd_HNrBQusEq21",
 }
 
-_dataset_to_md5 = {"panda": ""}
+_dataset_to_md5 = {
+    "panda": "37b3b5240a1e68fec6cc13ac0a8dd644",
+    "rooms": "c1606d4e0bfc9b5f702717fe209cd904",
+}
 
 
 def download_dataset(name: str, save_dir: str):
