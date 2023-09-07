@@ -181,8 +181,9 @@ that your CUDA Toolkit version mismatches with the PyTorch installation.
 The easiest way to fix this issue is to install the correct CUDA Toolkit version via conda:
 
 1. Install CUDA toolkit via conda: `conda install -c "nvidia/label/cuda-11.8.0" cuda-toolkit`
-2. TODO: update CUDA PATH to point to that
-3. Try installing tiny-cuda-nn again:
+2. Set `CUDA_HOME` to the conda CUDA toolkit path: `export CUDA_HOME=$CONDA_PREFIX`
+   - Note: you only need to do this for the tiny-cuda-nn installation, no need to set this permanently.
+3. Try installing tiny-cuda-nn again (this will take a few minutes):
    `pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch`
 
 You can install the CUDA toolkit via the instructions on the NVIDIA website if you prefer. Just make sure you install
