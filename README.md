@@ -179,7 +179,8 @@ different language queries and see what results you get!
 
 **Note:** if multiple positive queries are specified, we average their CLIP embeddings before computing the pair-wise
 softmax described in Section 3.3 of the [paper](https://arxiv.org/abs/2308.07931). The default temperature of 0.1 works
-well.
+well. If no negative queries are specified, then we show the cosine similarity between the positive query and the
+feature field.
 
 ### Extracting CLIP and DINO Features
 

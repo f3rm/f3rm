@@ -136,10 +136,9 @@ class FeatureFieldModel(NerfactoModel):
             if not texts:
                 gui_state.clear_positives() if is_positive else gui_state.clear_negatives()
                 return
-
+            # Embed text queries
             tokens = tokenize(texts).to(device)
             embed = self._clip_model.encode_text(tokens).float()
-
             if is_positive:
                 gui_state.positives = texts
                 # Average embedding if we have multiple positives
