@@ -28,18 +28,19 @@ from f3rm.renderer import FeatureRenderer
 class FeatureFieldModelConfig(NerfactoModelConfig):
     _target: Type = field(default_factory=lambda: FeatureFieldModel)
     feat_loss_weight: float = 1e-3
+    # Make sure to use naming that doesn't conflict with NerfactoModelConfig
     # Feature Field Positional Encoding
-    use_pe: bool = True
-    pe_n_freq: int = 6
+    feat_use_pe: bool = True
+    feat_pe_n_freq: int = 6
     # Feature Field Hash Grid
-    num_levels: int = 12
-    log2_hashmap_size: int = 19
-    start_res: int = 16
-    max_res: int = 128
-    features_per_level: int = 8
+    feat_num_levels: int = 12
+    feat_log2_hashmap_size: int = 19
+    feat_start_res: int = 16
+    feat_max_res: int = 128
+    feat_features_per_level: int = 8
     # Feature Field MLP Head
-    hidden_dim: int = 64
-    num_layers: int = 2
+    feat_hidden_dim: int = 64
+    feat_num_layers: int = 2
 
 
 @dataclass
@@ -70,15 +71,15 @@ class FeatureFieldModel(NerfactoModel):
         self.feature_field = FeatureField(
             feature_dim=feature_dim,
             spatial_distortion=self.field.spatial_distortion,
-            use_pe=self.config.use_pe,
-            pe_n_freq=self.config.pe_n_freq,
-            num_levels=self.config.num_levels,
-            log2_hashmap_size=self.config.log2_hashmap_size,
-            start_res=self.config.start_res,
-            max_res=self.config.max_res,
-            features_per_level=self.config.features_per_level,
-            hidden_dim=self.config.hidden_dim,
-            num_layers=self.config.num_layers,
+            use_pe=self.config.feat_use_pe,
+            pe_n_freq=self.config.feat_pe_n_freq,
+            num_levels=self.config.feat_num_levels,
+            log2_hashmap_size=self.config.feat_log2_hashmap_size,
+            start_res=self.config.feat_start_res,
+            max_res=self.config.feat_max_res,
+            features_per_level=self.config.feat_features_per_level,
+            hidden_dim=self.config.feat_hidden_dim,
+            num_layers=self.config.feat_num_layers,
         )
         self.renderer_feature = FeatureRenderer()
         self.setup_gui()
