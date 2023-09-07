@@ -37,7 +37,8 @@ We currently release our implementation for training feature fields. We will rel
 manipulation code soon.
 
 F3RM is built on top of [Nerfstudio](https://github.com/nerfstudio-project/nerfstudio) following their
-[guide for adding new methods](https://docs.nerf.studio/en/latest/developer_guides/new_methods.html).
+[guide for adding new methods](https://docs.nerf.studio/en/latest/developer_guides/new_methods.html). For a summary
+of the codebase structure, see [assets/code_structure.md](assets/code_structure.md).
 
 ### Installation
 
