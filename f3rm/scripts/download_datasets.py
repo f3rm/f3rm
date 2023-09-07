@@ -66,7 +66,9 @@ def download_dataset(name: str, save_dir: str):
 
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description="Download F3RM datasets.", formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
     parser.add_argument(
         "type",
         type=str,
