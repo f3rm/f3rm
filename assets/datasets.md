@@ -12,6 +12,7 @@ ___
     - [`scene_003`](#scene_003)
 - [`rooms`](#rooms)
     - [`george_the_panda`](#george_the_panda)
+    - [`pluto_the_spot`](#pluto_the_spot)
 
 ___
 
