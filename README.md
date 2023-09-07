@@ -147,7 +147,7 @@ The default port used by Nerfstudio is 7007, but check the viewer URL to make su
 the Nerfstudio viewer, check out
 their [documentation](https://docs.nerf.studio/en/latest/quickstart/viewer_quickstart.html).
 
-**Visualizing the Feature Field PCA**
+#### Visualizing the Feature Field PCA
 
 To visualize the PCA of the features, select `feature_pca` in the `Render Options -> Output Render` dropdown box.
 Note that the initial PCA projection matrix is computed based on the features rendered at your current viewpoint.
@@ -157,7 +157,7 @@ Note that the initial PCA projection matrix is computed based on the features re
 To recompute the PCA projection based on your current viewpoint, click the "Refresh PCA Projection" button under
 `Trainer/pipeline/model` near the bottom of the controls.
 
-**Language Interaction with CLIP Feature Fields**
+#### Language Interaction with CLIP Feature Fields
 
 If you are distilling CLIP features (the default feature type), then you will see the following additional controls
 under `Trainer/pipeline/model` near the bottom of the controls panel. You can enter positive and negative text queries
