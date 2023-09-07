@@ -21,11 +21,12 @@ CoRL 2023 (Oral)
 
 - [Installation](#installation)
 - [Usage](#usage)
-  - [Downloading Example Datasets](#downloading-example-datasets)
-  - [Training a Feature Field](#training-a-feature-field)
-  - [Using our Custom Viewer](#using-our-custom-viewer)
-  - [Using the Nerfstudio Viewer](#using-the-nerfstudio-viewer)
-  - [Extracting CLIP and DINO Features](#extracting-clip-and-dino-features)
+    - [Downloading Example Datasets](#downloading-example-datasets)
+    - [Training a Feature Field](#training-a-feature-field)
+    - [Using our Custom Viewer](#using-our-custom-viewer)
+    - [Using the Nerfstudio Viewer](#using-the-nerfstudio-viewer)
+    - [Extracting CLIP and DINO Features](#extracting-clip-and-dino-features)
+- [Troubleshooting](#troubleshooting)
 - [Citation](#citation)
 
 ## Code
@@ -66,6 +67,8 @@ ns-install-cli
 # Test your installation, and check 'f3rm' is a valid method
 ns-train --help
 ```
+
+See [Troubleshooting](#troubleshooting) if you have issues during installation.
 
 ## Usage
 
@@ -166,6 +169,38 @@ use these features for your own NeRF pipeline or for other downstream applicatio
   `python f3rm/scripts/demo_clip_features.py`. This script will create a plot showing the similarity heatmaps for a
   given
   text query, and will save a plot to `demo_clip_features-{text_query}.png`.
+
+## Troubleshooting
+
+### tiny-cuda-nn installation fails
+
+If you get an error when installing tiny-cuda-nn that says something like "The detected CUDA version (12.2) mismatches
+the version that was used to compile PyTorch (11.8). Please make sure to use the same CUDA versions", then this means
+that your CUDA Toolkit version mismatches with the PyTorch installation.
+
+The easiest way to fix this issue is to install the correct CUDA Toolkit version via conda:
+
+1. Install CUDA toolkit via conda: `conda install -c "nvidia/label/cuda-11.8.0" cuda-toolkit`
+2. TODO: update CUDA PATH to point to that
+3. Try installing tiny-cuda-nn again:
+   `pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch`
+
+You can install the CUDA toolkit via the instructions on the NVIDIA website if you prefer. Just make sure you install
+the right version: https://developer.nvidia.com/cuda-toolkit-archive
+
+### Language queries are not working in Nerfstudio viewer
+
+The Nerfstudio viewer can sometimes fail to register the input you type into the text boxes if you are use the same
+browser tab for different training runs. This means `feature_pca` and `similarity` may not appear in the Render Options.
+To fix this issue, try closing the viewer tab and opening it again. If this doesn't work, please open an issue in this
+repository.
+
+### Running out of GPU memory
+
+This codebase was tested on a RTX3090 with 24GB of GPU memory. If you are running out of memory when using the viewer,
+try to decrease the rendering resolution. In the Nerfstudio viewer, you can change the `Max Res` under Render Options.
+
+If you are running out of memory during any other stages, please open a GitHub issue and we will try to help.
 
 ## Acknowledgements
 
