@@ -2,26 +2,48 @@ import argparse
 import hashlib
 import os
 import zipfile
+from typing import NamedTuple
 
 import gdown
 
-# Note: these are all ZIP files on Google Drive
-_dataset_to_url = {
-    "panda": "https://drive.google.com/uc?id=15iNJo57bIM2NMyKVs4JU_nzNvFzJ1ZRU",
-    "rooms": "https://drive.google.com/uc?id=1Kl84WHBN5VGTyuzKE9nd_HNrBQusEq21",
-}
 
-_dataset_to_md5 = {
-    "panda": "37b3b5240a1e68fec6cc13ac0a8dd644",
-    "rooms": "c1606d4e0bfc9b5f702717fe209cd904",
-}
+class _Dataset(NamedTuple):
+    name: str
+    url: str
+    md5: str
+
+
+_datasets = [
+    _Dataset(
+        name="panda",
+        url="https://drive.google.com/uc?id=15iNJo57bIM2NMyKVs4JU_nzNvFzJ1ZRU",
+        md5="37b3b5240a1e68fec6cc13ac0a8dd644",
+    ),
+    _Dataset(
+        name="rooms",
+        url="https://drive.google.com/uc?id=1Kl84WHBN5VGTyuzKE9nd_HNrBQusEq21",
+        md5="c1606d4e0bfc9b5f702717fe209cd904",
+    ),
+]
+
+_dataset_names = {d.name for d in _datasets}
+assert len(_dataset_names) == len(_datasets), "Dataset names must be unique!"
+
+
+def get_dataset(name: str) -> _Dataset:
+    matches = [d for d in _datasets if d.name == name]
+    if len(matches) == 0:
+        raise ValueError(f"Dataset {name} not found!")
+    elif len(matches) > 1:
+        raise ValueError(f"Multiple datasets found with name {name}!")
+    return matches[0]
 
 
 def download_dataset(name: str, save_dir: str):
     os.makedirs(save_dir, exist_ok=True)
 
-    url = _dataset_to_url[name]
-    assert url.startswith("https://drive.google.com")
+    dataset = get_dataset(name)
+    assert dataset.url.startswith("https://drive.google.com")
 
     zip_path = os.path.join(save_dir, f"{name}.zip")
     if os.path.exists(zip_path):
@@ -29,14 +51,13 @@ def download_dataset(name: str, save_dir: str):
 
     # Download from Google Drive
     print(f"Downloading {name} datasets to {save_dir}...")
-    gdown.download(url, output=zip_path)
+    gdown.download(dataset.url, output=zip_path)
 
     # Check md5 matches
-    expected_md5 = _dataset_to_md5[name]
     with open(zip_path, "rb") as f:
         actual_md5 = hashlib.md5(f.read()).hexdigest()
-    if actual_md5 != expected_md5:
-        raise RuntimeError(f"MD5 mismatch for {zip_path}! Expected {expected_md5}, got {actual_md5}.")
+    if actual_md5 != dataset.md5:
+        raise RuntimeError(f"MD5 mismatch for {zip_path}! Expected {dataset.md5}, got {actual_md5}.")
 
     # Unzip and delete the zip file
     with zipfile.ZipFile(zip_path, "r") as f:
@@ -51,7 +72,7 @@ def main():
         type=str,
         help="Type of dataset to download. Use 'all' to download all datasets.",
         nargs="?",
-        choices=["all"] + list(_dataset_to_url.keys()),
+        choices=["all"] + list(_dataset_names),
         default="all",
     )
     parser.add_argument(
@@ -61,7 +82,8 @@ def main():
 
     # Download the datasets
     if args.type == "all":
-        for name in _dataset_to_url.keys():
+        print(f"Downloading all {len(_datasets)} datasets...")
+        for name in _dataset_names:
             download_dataset(name, args.save_dir)
     else:
         download_dataset(args.type, args.save_dir)
