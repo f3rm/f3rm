@@ -59,15 +59,15 @@ conda activate f3rm
 
 ```bash
 # Install torch per instructions here: https://pytorch.org/get-started/locally/
-# Choose the CUDA version that your GPU supports. We will use CUDA 11.8.
+# Choose the CUDA version that your GPU supports. We will use CUDA 11.8
 pip install torch==2.0.1+cu118 torchvision==0.15.2+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
 
-# Install CUDA toolkit, this should not conflict with your system CUDA installation.
-# You can skip this if you already have CUDA 11.8 installed (you can check this using `nvcc --version`)
+# Install CUDA toolkit, you can skip this if you already have CUDA 11.8 installed
+# You can check your existing CUDA installation with `nvcc --version`
 conda install -c "nvidia/label/cuda-11.8.0" cuda-toolkit
 export CUDA_HOME=$CONDA_PREFIX
 
-# Install tiny-cuda-nn, this might take a few minutes
+# Install tiny-cuda-nn, this will take a few minutes
 pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
 ```
 
