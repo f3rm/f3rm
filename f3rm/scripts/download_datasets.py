@@ -26,17 +26,14 @@ _datasets = [
     ),
 ]
 
-_dataset_names = {d.name for d in _datasets}
-assert len(_dataset_names) == len(_datasets), "Dataset names must be unique!"
+_name_to_dataset = {d.name: d for d in _datasets}
+assert len(_name_to_dataset) == len(_datasets), "Dataset names must be unique!"
 
 
 def get_dataset(name: str) -> _Dataset:
-    matches = [d for d in _datasets if d.name == name]
-    if len(matches) == 0:
+    if name not in _name_to_dataset:
         raise ValueError(f"Dataset {name} not found!")
-    elif len(matches) > 1:
-        raise ValueError(f"Multiple datasets found with name {name}!")
-    return matches[0]
+    return _name_to_dataset[name]
 
 
 def download_dataset(name: str, save_dir: str):
@@ -74,7 +71,7 @@ def main():
         type=str,
         help="Type of dataset to download. Use 'all' to download all datasets.",
         nargs="?",
-        choices=["all"] + list(_dataset_names),
+        choices=["all"] + list(_name_to_dataset.keys()),
         default="all",
     )
     parser.add_argument(
@@ -85,7 +82,7 @@ def main():
     # Download the datasets
     if args.type == "all":
         print(f"Downloading all {len(_datasets)} datasets...")
-        for name in _dataset_names:
+        for name in _name_to_dataset.keys():
             download_dataset(name, args.save_dir)
     else:
         download_dataset(args.type, args.save_dir)
