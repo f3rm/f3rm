@@ -85,6 +85,18 @@ You can try F3RM with the example datasets which you can download following the
 instructions [here](#downloading-example-datasets). Alternatively, you can prepare your own datasets following the
 instructions in the [Nerfstudio documentation](https://docs.nerf.studio/en/latest/quickstart/custom_dataset.html).
 
+**Resuming Training from a Checkpoint**
+
+Use the `--load-dir` flag to resume training from a checkpoint. Nerfstudio writes the checkpoint files to the `outputs/`
+directory relative to your current directory.
+
+```bash
+ns-train f3rm --data <data_folder> --load-dir {outputs/.../nerfstudio_models}
+```
+
+Checkout the [Nerfstudio documentation](https://docs.nerf.studio/en/latest/quickstart/first_nerf.html) for more details
+on functionality.
+
 ### Using our Custom Viewer
 
 Our custom web viewer is coming soon! Keep an eye on out for updates.
@@ -93,7 +105,8 @@ Our custom web viewer is coming soon! Keep an eye on out for updates.
 
 Once you have started training the feature field with `ns-train`, Nerfstudio will print a URL to the viewer in the
 terminal (the URL will start with https://viewer.nerf.studio). You can open this URL to open the Nerfstudio viewer in
-your browser to visualize training progress and the feature field.
+your browser to visualize training progress and the feature field. Alternatively, to visualize a trained model you can
+run `ns-viewer --load-config {outputs/.../config.yml}`.
 
 Note that if you are using a remote server, you will need to forward the port to your local machine
 ([instructions](https://docs.nerf.studio/en/latest/quickstart/viewer_quickstart.html#training-on-a-remote-machine)).
