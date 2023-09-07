@@ -1,5 +1,7 @@
 # Distilled Feature Fields Enable Few-Shot Language-Guided Manipulation
 
+## This branch is currently under development. It is not ready for use.
+
 ### [🌐 Project Website](https://f3rm.github.io) | [📝 Paper](https://arxiv.org/abs/2308.07931) | [🎥 Video](https://www.youtube.com/watch?v=PA9rWWVWsc4)
 
 We distill features from 2D foundation models into 3D feature fields, and enable few-shot language-guided manipulation
