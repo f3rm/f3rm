@@ -51,6 +51,14 @@ class _GuiState:
     neg_embed: Optional[torch.Tensor] = None
     softmax_temp: float = 0.1
 
+    @property
+    def has_positives(self) -> bool:
+        return self.positives and self.pos_embed is not None
+
+    @property
+    def has_negatives(self) -> bool:
+        return self.negatives and self.neg_embed is not None
+
 
 class FeatureFieldModel(NerfactoModel):
     config: FeatureFieldModelConfig
@@ -236,7 +244,7 @@ class FeatureFieldModel(NerfactoModel):
         outputs["feature_pca"], self.pca_proj, *_ = apply_pca_colormap_return_proj(outputs["feature"], self.pca_proj)
 
         # Nothing else to do if not CLIP features or no positives
-        if self.kwargs["metadata"]["feature_type"] != "CLIP" or not self.gui_state.positives:
+        if self.kwargs["metadata"]["feature_type"] != "CLIP" or not self.gui_state.has_positives:
             return outputs
 
         # Normalize CLIP features rendered by feature field
@@ -244,7 +252,7 @@ class FeatureFieldModel(NerfactoModel):
         clip_features /= clip_features.norm(dim=-1, keepdim=True)
 
         # If there are no negatives, just show the cosine similarity with the positives
-        if not self.gui_state.negatives:
+        if not self.gui_state.has_negatives:
             sims = clip_features @ self.gui_state.pos_embed.T
             # Show the mean similarity if there are multiple positives
             if sims.shape[-1] > 1:
