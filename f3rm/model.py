@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple, Type
+from typing import Dict, List, Optional, Type
 
 import torch
 import torch.nn.functional as F
@@ -228,13 +228,6 @@ class FeatureFieldModel(NerfactoModel):
         target_feats = batch["feature"].to(self.device)
         loss_dict["feature_loss"] = self.config.feat_loss_weight * F.mse_loss(outputs["feature"], target_feats)
         return loss_dict
-
-    def get_image_metrics_and_images(
-        self, outputs: Dict[str, torch.Tensor], batch: Dict[str, torch.Tensor]
-    ) -> Tuple[Dict[str, float], Dict[str, torch.Tensor]]:
-        metrics_dict, images_dict = super().get_image_metrics_and_images(outputs, batch)
-        # TODO: add feature outputs
-        return metrics_dict, images_dict
 
     @torch.no_grad()
     def get_outputs_for_camera_ray_bundle(self, camera_ray_bundle: RayBundle) -> Dict[str, torch.Tensor]:
