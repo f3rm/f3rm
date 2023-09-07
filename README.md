@@ -118,7 +118,7 @@ instructions in the [Nerfstudio documentation](https://docs.nerf.studio/en/lates
 You do not need to run the training to completion. We save a checkpoint every 2000 steps by default. To see all the
 options available for training, run `ns-train f3rm -h`.
 
-**Resuming Training from a Checkpoint**
+#### Resuming Training from a Checkpoint
 
 Use the `--load-dir` flag to resume training from a checkpoint. Nerfstudio writes the checkpoint files to the `outputs/`
 directory relative to your current directory.
