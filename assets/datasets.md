@@ -59,9 +59,10 @@ interesting objects which you can query via language using CLIP feature fields.
 <img src="images/dataset_previews/rooms/george_the_panda_1.jpg" width="400" alt="rooms/george_the_panda">&nbsp;
 <img src="images/dataset_previews/rooms/george_the_panda_2.jpg" width="400" alt="rooms/george_the_panda">
 
-This scene is of the room that George our Panda robot used to live in. The table and room contains a variety of objects,
-including those from the YCB dataset. Some of these objects may not be entirely picked up by the CLIP feature field as
-the source images do not get a good view of the object.
+This scene is of the room that George our Panda robot used to live in. There are 70 images with an original resolution
+of 3000x4000 (Nerfstudio should automatically select the downscaled images for training). The table and room contains a
+variety of objects, many of which are from the YCB dataset. Some of these objects may not be fully picked up by the
+CLIP feature field as the source images do not get a good view of the object.
 
 **Objects Present:**
 
