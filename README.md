@@ -198,14 +198,14 @@ use these features for your own NeRF pipeline or for other downstream applicatio
 
 The Nerfstudio viewer can sometimes fail to register the input you type into the text boxes if you are use the same
 browser tab for different training runs. This means `feature_pca` and `similarity` may not appear in the Render Options.
-To fix this issue, try closing the viewer tab and opening it again. If this doesn't work, please open an issue in this
-repository.
+To fix this issue, try closing the tab with the viewer in your browser and opening it again. If this doesn't work,
+please open an issue in this repository.
 
 ### Running out of GPU memory
 
 If you are running out of memory when using the viewer, try to decrease the rendering resolution. In the Nerfstudio
 viewer, you can change the `Max Res` under Render Options. This codebase was tested on a RTX3090 with 24GB of GPU
-memory. We observe a peak memory usage of ~17GB when training a CLIP feature field and using the viewer with a `Max Res`
+memory. We observe a peak memory usage of ~18GB when training a CLIP feature field and using the viewer with a `Max Res`
 of 512.
 
 If you are running out of memory during any other stages, please open a GitHub issue and we will try to help.

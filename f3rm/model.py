@@ -26,9 +26,11 @@ from f3rm.renderer import FeatureRenderer
 
 @dataclass
 class FeatureFieldModelConfig(NerfactoModelConfig):
+    """Note: make sure to use naming that doesn't conflict with NerfactoModelConfig"""
+
     _target: Type = field(default_factory=lambda: FeatureFieldModel)
+    # Weighing for the feature loss
     feat_loss_weight: float = 1e-3
-    # Make sure to use naming that doesn't conflict with NerfactoModelConfig
     # Feature Field Positional Encoding
     feat_use_pe: bool = True
     feat_pe_n_freq: int = 6
