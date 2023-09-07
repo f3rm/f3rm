@@ -19,7 +19,8 @@ ___
 ## `panda`
 
 The `panda` datasets are taken by the robot using an Intel RealSense D415 mounted on a selfie stick. Each dataset
-consists of 50 1280x720 RGB images of a scene with various objects collected around the lab in various poses.
+consists of 50 1280x720 RGB images of a scene with various objects collected around the lab in various poses. The RGB
+sensor on the RealSense is not great, so the images do not have the highest quality.
 
 ### `scene_001`
 
