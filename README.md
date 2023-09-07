@@ -21,6 +21,11 @@ CoRL 2023 (Oral)
 
 - [Installation](#installation)
 - [Usage](#usage)
+  - [Downloading Example Datasets](#downloading-example-datasets)
+  - [Training a Feature Field](#training-a-feature-field)
+  - [Using our Custom Viewer](#using-our-custom-viewer)
+  - [Using the Nerfstudio Viewer](#using-the-nerfstudio-viewer)
+  - [Extracting CLIP and DINO Features](#extracting-clip-and-dino-features)
 - [Citation](#citation)
 
 ## Code
