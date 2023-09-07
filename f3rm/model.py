@@ -57,9 +57,17 @@ class _GuiState:
     def has_positives(self) -> bool:
         return self.positives and self.pos_embed is not None
 
+    def clear_positives(self):
+        self.positives.clear()
+        self.pos_embed = None
+
     @property
     def has_negatives(self) -> bool:
         return self.negatives and self.neg_embed is not None
+
+    def clear_negatives(self):
+        self.negatives.clear()
+        self.neg_embed = None
 
 
 class FeatureFieldModel(NerfactoModel):
@@ -97,7 +105,7 @@ class FeatureFieldModel(NerfactoModel):
     def setup_gui(self):
         def refresh_pca_proj(_: ViewerButton):
             self.pca_proj = None
-            print("PCA projection set to None")
+            CONSOLE.print("PCA projection cleared")
 
         self.btn_refresh_pca = ViewerButton("Refresh PCA Projection", cb_hook=refresh_pca_proj)
 
@@ -109,49 +117,57 @@ class FeatureFieldModel(NerfactoModel):
         from f3rm.features.clip import load, tokenize
         from f3rm.features.clip_extract import CLIPArgs
 
-        # Load CLIP
-        CONSOLE.print(
-            f"Loading CLIP {CLIPArgs.model_name} for Nerfstudio viewer. "
-            "If you run out of memory please open a GitHub issue on https://github.com/f3rm/f3rm"
-        )
         device = self.kwargs["device"]
-        clip_model, _ = load(CLIPArgs.model_name, device=device)
         gui_state = self.gui_state
+        self._clip_model = None
+
+        # Load CLIP lazily to avoid loading it when not needed
+        def load_clip_model():
+            if self._clip_model is None:
+                CONSOLE.print(f"Loading CLIP {CLIPArgs.model_name} for Nerfstudio viewer")
+                self._clip_model, _ = load(CLIPArgs.model_name, device=device)
 
         @torch.no_grad()
-        def update_positives(element: ViewerText):
-            # Embed positive texts with CLIP
-            text = element.value
-            gui_state.positives = [x.strip() for x in text.split(",") if x.strip()]
-            if gui_state.positives:
-                tokens = tokenize(gui_state.positives).to(device)
-                gui_state.pos_embed = clip_model.encode_text(tokens).float()
+        def update_gui_state(element: ViewerText, is_positive: bool):
+            """Compute CLIP embeddings based on text and update GUI state"""
+            load_clip_model()
+            texts = [x.strip() for x in element.value.split(",") if x.strip()]
+            # Clear the GUI state if there are no texts
+            if not texts:
+                gui_state.clear_positives() if is_positive else gui_state.clear_negatives()
+                return
+
+            tokens = tokenize(texts).to(device)
+            embed = self._clip_model.encode_text(tokens).float()
+
+            if is_positive:
+                gui_state.positives = texts
                 # Average embedding if we have multiple positives
-                gui_state.pos_embed = gui_state.pos_embed.mean(dim=0, keepdim=True)
-                gui_state.pos_embed /= gui_state.pos_embed.norm(dim=-1, keepdim=True)
+                embed = embed.mean(dim=0, keepdim=True)
+                embed /= embed.norm(dim=-1, keepdim=True)
+                gui_state.pos_embed = embed
             else:
-                gui_state.pos_embed = None
-
-        @torch.no_grad()
-        def update_negatives(element: ViewerText):
-            # Embed negative texts with CLIP
-            text = element.value
-            gui_state.negatives = [x.strip() for x in text.split(",") if x.strip()]
-            if gui_state.negatives:
-                tokens = tokenize(gui_state.negatives).to(device)
-                gui_state.neg_embed = clip_model.encode_text(tokens).float()
-                gui_state.neg_embed /= gui_state.neg_embed.norm(dim=-1, keepdim=True)
-            else:
-                gui_state.neg_embed = None
+                gui_state.negatives = texts
+                # We don't average the negatives as we compute pair-wise softmax
+                embed /= embed.norm(dim=-1, keepdim=True)
+                gui_state.neg_embed = embed
 
         def update_softmax(element: ViewerNumber):
             gui_state.softmax_temp = element.value
-            print("Updated softmax temperature to", gui_state.softmax_temp)
+            CONSOLE.print("Updated softmax temperature to", gui_state.softmax_temp)
 
         # Note: the GUI elements are shown based on alphabetical variable names
         self.hint_text = ViewerText(name="Note:", disabled=True, default_value="Use , to separate labels")
-        self.lang_1_pos_text = ViewerText(name="Language (Positives)", default_value="", cb_hook=update_positives)
-        self.lang_2_neg_text = ViewerText(name="Language (Negatives)", default_value="", cb_hook=update_negatives)
+        self.lang_1_pos_text = ViewerText(
+            name="Language (Positives)",
+            default_value="",
+            cb_hook=lambda elem: update_gui_state(elem, is_positive=True),
+        )
+        self.lang_2_neg_text = ViewerText(
+            name="Language (Negatives)",
+            default_value="",
+            cb_hook=lambda elem: update_gui_state(elem, is_positive=False),
+        )
         self.softmax_temp = ViewerNumber(
             name="Softmax temperature", default_value=gui_state.softmax_temp, cb_hook=update_softmax
         )

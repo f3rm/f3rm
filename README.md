@@ -161,11 +161,13 @@ To recompute the PCA projection based on your current viewpoint, click the "Refr
 
 If you are distilling CLIP features (the default feature type), then you will see the following additional controls
 under `Trainer/pipeline/model` near the bottom of the controls panel. You can enter positive and negative text queries
-(separated by `,` commas), which will compute similarity heatmaps.
+(separated by `,` commas), which will compute similarity heatmaps. You will need to click out of the text box or press
+the enter key to submit the query.
 
 <img src="assets/images/ns_viewer/f3rm_controls.png" width="400" alt="Additional Controls for F3RM in the Nerfstudio Viewer">
 
-Then, to visualize these heatmaps, select `similarity` in the `Render Options -> Output Render` dropdown box.
+To visualize these heatmaps, select `similarity` in the `Render Options -> Output Render` dropdown box. It may take a
+few seconds for this option to show up as we load CLIP on the first query.
 
 <img src="assets/images/ns_viewer/similarity_option.png" width="400" alt="similarity in Output Render dropdown">
 
