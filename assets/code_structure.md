@@ -1,11 +1,13 @@
 # F3RM Code Structure
 
-- `f3rm/features`
+- [`f3rm/features`](/f3rm/features)
     - Code for extracting CLIP and DINO features from images.
     - We interpolate the position encoding for both the CLIP and DINO ViT, so the patch-level features maintain the same
       aspect ratio as the input images.
     - See `clip_extract.py` and `dino_extract.py` for the main entrypoints.
 - `f3rm/scripts`
+    - Demo scripts for extracting CLIP and DINO features (`demo_clip_features.py` and `demo_extract_features.py`).
+    - Script for downloading example datasets (`download_datasets.py`).
 - `f3rm_config.py`
     - Nerfstudio method configuration for F3RM. This allows `f3rm` to show up as a method in `ns-train`.
 - `feature_datamanager.py`

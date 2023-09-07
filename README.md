@@ -42,8 +42,7 @@ of the codebase structure, see [assets/code_structure.md](assets/code_structure.
 
 ### Installation
 
-**Note:** this repo requires an NVIDIA GPU with CUDA 11.7+ for NeRF and feature field distillation. We tested our
-implementation on a RTX3090 with 24GB of VRAM.
+**Note:** this repo requires an NVIDIA GPU with CUDA 11.7+ for NeRF and feature field distillation.
 
 #### 1. Clone the repo and setup conda environment
 
