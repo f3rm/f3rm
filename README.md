@@ -86,12 +86,10 @@ ns-install-cli
 ns-train --help
 ```
 
-FIXME
-
-See [Troubleshooting](#troubleshooting) if you have issues during installation. If you have a previous installation of
-Nerfstudio, then you may need to deactivate all conda environments and then just activate the `f3rm` environment. This
-is because prior versions of Nerfstudio may have installed the entry points to your `~/.local` directory, which could
-cause conflicts with the new installation.
+**Note:** if you have a previous installation of Nerfstudio, make sure it does not conflict with the new installation
+in the `f3rm` conda environment. Run `which -a ns-train` and check that the first entry points to
+`$CONDA_PREFIX/bin/ns-train`. If it doesn't, then you may need to deactivate all conda environments and only activate
+the `f3rm` environment.
 
 ## Usage
 
@@ -196,23 +194,6 @@ use these features for your own NeRF pipeline or for other downstream applicatio
 
 ## Troubleshooting
 
-### tiny-cuda-nn installation fails
-
-If you get an error when installing tiny-cuda-nn that says something like "The detected CUDA version (12.2) mismatches
-the version that was used to compile PyTorch (11.8). Please make sure to use the same CUDA versions", then this means
-that your CUDA Toolkit version mismatches with the PyTorch installation.
-
-The easiest way to fix this issue is to install the correct CUDA Toolkit version via conda:
-
-1. Install CUDA toolkit via conda: `conda install -c "nvidia/label/cuda-11.8.0" cuda-toolkit`
-2. Set `CUDA_HOME` to the conda CUDA toolkit path: `export CUDA_HOME=$CONDA_PREFIX`
-    - Note: you only need to do this for the tiny-cuda-nn installation, no need to set this permanently.
-3. Try installing tiny-cuda-nn again (this will take a few minutes):
-   `pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch`
-
-You can install the CUDA toolkit via the instructions on the NVIDIA website if you prefer. Just make sure you install
-the right version: https://developer.nvidia.com/cuda-toolkit-archive
-
 ### Language queries are not working in Nerfstudio viewer
 
 The Nerfstudio viewer can sometimes fail to register the input you type into the text boxes if you are use the same
@@ -222,8 +203,10 @@ repository.
 
 ### Running out of GPU memory
 
-This codebase was tested on a RTX3090 with 24GB of GPU memory. If you are running out of memory when using the viewer,
-try to decrease the rendering resolution. In the Nerfstudio viewer, you can change the `Max Res` under Render Options.
+If you are running out of memory when using the viewer, try to decrease the rendering resolution. In the Nerfstudio
+viewer, you can change the `Max Res` under Render Options. This codebase was tested on a RTX3090 with 24GB of GPU
+memory. We observe a peak memory usage of ~17GB when training a CLIP feature field and using the viewer with a `Max Res`
+of 512.
 
 If you are running out of memory during any other stages, please open a GitHub issue and we will try to help.
 
