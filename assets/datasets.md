@@ -27,7 +27,7 @@ sensor on the RealSense is not great, so the images do not have the highest qual
 
 <img src="images/dataset_previews/panda/scene_001.jpg" width="350" alt="panda/scene_001">
 
-The teaser scene used throughout the paper, website and video.
+The scene used throughout the paper, website and video for the language-guided manipulation results.
 
 **Objects Present:** transparent jug, mango, metal jug, Baymax plush toy, apple, blue screwdriver, red screwdriver,
 plastic bowl, can of SPAM, grapes, whiteboard marker, wood blocks
