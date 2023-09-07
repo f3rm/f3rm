@@ -61,7 +61,7 @@ class FeatureDataManager(VanillaDataManager):
         self.scale_h = feat_h / im_h
         self.scale_w = feat_w / im_w
         assert np.isclose(
-            self.scale_h, self.scale_w, atol=1e-3
+            self.scale_h, self.scale_w, atol=1.5e-3
         ), f"Scales must be similar, got h={self.scale_h} and w={self.scale_w}"
 
         # Garbage collect

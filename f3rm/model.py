@@ -28,6 +28,7 @@ from f3rm.renderer import FeatureRenderer
 class FeatureFieldModelConfig(NerfactoModelConfig):
     _target: Type = field(default_factory=lambda: FeatureFieldModel)
     feat_loss_weight: float = 1e-3
+    # FIXME: expose feature field parameters
 
 
 @dataclass
