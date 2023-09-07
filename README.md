@@ -85,6 +85,9 @@ You can try F3RM with the example datasets which you can download following the
 instructions [here](#downloading-example-datasets). Alternatively, you can prepare your own datasets following the
 instructions in the [Nerfstudio documentation](https://docs.nerf.studio/en/latest/quickstart/custom_dataset.html).
 
+You do not need to run the training to completion. We save a checkpoint every 2000 steps by default. To see all the
+options available for training, run `ns-train f3rm -h`.
+
 **Resuming Training from a Checkpoint**
 
 Use the `--load-dir` flag to resume training from a checkpoint. Nerfstudio writes the checkpoint files to the `outputs/`
