@@ -49,7 +49,7 @@ conda activate f3rm
 # Choose the CUDA version that matches your GPU
 pip install torch==2.0.1+cu118 torchvision==0.15.2+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
 
-# Install tiny-cuda-nn
+# Install tiny-cuda-nn, this might take a few minutes
 pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
 
 # Install F3RM project and dependencies (including nerfstudio)
