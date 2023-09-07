@@ -42,7 +42,7 @@ git clone https://github.com/f3rm/f3rm.git
 cd f3rm
 
 # Create conda environment. Feel free to use a different package manager
-conda create -n f3rm python=3.10
+conda create -n f3rm python=3.8
 conda activate f3rm
 
 # Install torch per instructions here: https://pytorch.org/get-started/locally/
