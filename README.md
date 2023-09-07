@@ -68,7 +68,10 @@ ns-install-cli
 ns-train --help
 ```
 
-See [Troubleshooting](#troubleshooting) if you have issues during installation.
+See [Troubleshooting](#troubleshooting) if you have issues during installation. If you have a previous installation of
+Nerfstudio, then you may need to deactivate all conda environments and then just activate the `f3rm` environment. This
+is because prior versions of Nerfstudio may have installed the entry points to your `~/.local` directory, which could
+cause conflicts with the new installation.
 
 ## Usage
 
