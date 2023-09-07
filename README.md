@@ -44,31 +44,49 @@ F3RM is built on top of [Nerfstudio](https://github.com/nerfstudio-project/nerfs
 **Note:** this repo requires an NVIDIA GPU with CUDA 11.7+ for NeRF and feature field distillation. We tested our
 implementation on a RTX3090 with 24GB of VRAM.
 
+#### 1. Clone the repo and setup conda environment
+
 ```bash
-# Clone the repo
 git clone https://github.com/f3rm/f3rm.git
 cd f3rm
 
-# Create conda environment. Feel free to use a different package manager
+# We recommend that you use conda to manage your environment
 conda create -n f3rm python=3.8
 conda activate f3rm
+```
 
+#### 2. Install Nerfstudio dependencies
+
+```bash
 # Install torch per instructions here: https://pytorch.org/get-started/locally/
-# Choose the CUDA version that matches your GPU
+# Choose the CUDA version that your GPU supports. We will use CUDA 11.8.
 pip install torch==2.0.1+cu118 torchvision==0.15.2+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
+
+# Install CUDA toolkit, this should not conflict with your system CUDA installation.
+# You can skip this if you already have CUDA 11.8 installed on your system.
+conda install -c "nvidia/label/cuda-11.8.0" cuda-toolkit
+export CUDA_HOME=$CONDA_PREFIX
 
 # Install tiny-cuda-nn, this might take a few minutes
 pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
+```
 
-# Install F3RM project and dependencies (including nerfstudio)
+#### 3. Install F3RM and test your installation
+
+Make sure you are in the top-level directory of this repo (where `pyproject.toml` is located).
+
+```bash
+# Install F3RM and its dependencies
 pip install -e .
 
-# Install command line completions for nerfstudio
+# Install command-line completions for nerfstudio
 ns-install-cli
 
-# Test your installation, and check 'f3rm' is a valid method
+# Test your installation, check that 'f3rm' is a valid method
 ns-train --help
 ```
+
+FIXME
 
 See [Troubleshooting](#troubleshooting) if you have issues during installation. If you have a previous installation of
 Nerfstudio, then you may need to deactivate all conda environments and then just activate the `f3rm` environment. This
