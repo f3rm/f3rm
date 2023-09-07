@@ -75,8 +75,8 @@ See [Troubleshooting](#troubleshooting) if you have issues during installation.
 ### Downloading Example Datasets
 
 We provide example datasets which you can download using the `f3rm-download-data` command. By default, the script will
-download all the datasets (requires <span style="color:red">1.5GB</span> disk space) into the `datasets/` directory
-relative to your current directory.
+download all the datasets (requires ~300MB disk space) into the `datasets/` directory relative to your current
+directory.
 
 Run `f3rm-download-data -h` to see how to download specific datasets or set your own save directory.
 
