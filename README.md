@@ -44,12 +44,9 @@ of the codebase structure, see [assets/code_structure.md](assets/code_structure.
 
 **Note:** this repo requires an NVIDIA GPU with CUDA 11.7+ for NeRF and feature field distillation.
 
-#### 1. Clone the repo and setup conda environment
+#### 1. Setup conda environment
 
 ```bash
-git clone https://github.com/f3rm/f3rm.git
-cd f3rm
-
 # We recommend that you use conda to manage your environment
 conda create -n f3rm python=3.8
 conda activate f3rm
@@ -71,11 +68,12 @@ export CUDA_HOME=$CONDA_PREFIX
 pip install ninja git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
 ```
 
-#### 3. Install F3RM and test your installation
-
-Make sure you are in the top-level directory of this repo (where `pyproject.toml` is located).
+#### 3. Clone and install F3RM
 
 ```bash
+git clone https://github.com/f3rm/f3rm.git
+cd f3rm
+
 # Install F3RM and its dependencies
 pip install -e .
 
