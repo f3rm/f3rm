@@ -25,7 +25,7 @@ sensor on the RealSense is not great, so the images do not have the highest qual
 
 ### `scene_001`
 
-<img src="images/dataset_previews/panda/scene_001.jpg" width="350" alt="panda/scene_001">
+<img src="images/dataset_previews/panda/scene_001.jpg" width="450" alt="panda/scene_001">
 
 The scene used throughout the paper, website and video for the language-guided manipulation results.
 
@@ -34,7 +34,7 @@ plastic bowl, can of SPAM, grapes, whiteboard marker, wood blocks
 
 ### `scene_002`
 
-<img src="images/dataset_previews/panda/scene_002.jpg" width="350" alt="panda/scene_002">
+<img src="images/dataset_previews/panda/scene_002.jpg" width="450" alt="panda/scene_002">
 
 A scene we used for the language-guided manipulation results in the carousel on the website.
 
@@ -43,7 +43,7 @@ tape, blocks
 
 ### `scene_003`
 
-<img src="images/dataset_previews/panda/scene_003.jpg" width="350" alt="panda/scene_003">
+<img src="images/dataset_previews/panda/scene_003.jpg" width="450" alt="panda/scene_003">
 
 Another test scene we used for language-guided manipulation.
 
@@ -52,7 +52,7 @@ wood block
 
 ### `scene_004`
 
-<img src="images/dataset_previews/panda/scene_004.jpg" width="350" alt="panda/scene_004">
+<img src="images/dataset_previews/panda/scene_004.jpg" width="450" alt="panda/scene_004">
 
 This is a cluttered scene with many toys which was used in the figure for "Grasping in a Cluttered Scene" in the
 paper. If you train a CLIP feature field for this scene, you should be able to observe clear separation in the
@@ -72,7 +72,7 @@ contain interesting objects which you can query via language using CLIP feature 
 
 ### `robot_room`
 
-<img src="images/dataset_previews/rooms/robot_room.jpg" width="500" alt="rooms/robot_room">
+<img src="images/dataset_previews/rooms/robot_room.jpg" width="600" alt="rooms/robot_room">
 
 This scene is of our robot room with a Spot and PR2 robot (257 images). There are a variety of objects in the scene
 which we encourage you to explore with CLIP feature fields. We list some of the objects below.
@@ -84,7 +84,7 @@ which we encourage you to explore with CLIP feature fields. We list some of the 
 
 ### `stata_office`
 
-<img src="images/dataset_previews/rooms/stata_office.jpg" width="500" alt="rooms/back_office">
+<img src="images/dataset_previews/rooms/stata_office.jpg" width="600" alt="rooms/back_office">
 
 Scene of an office in Stata Center at MIT (257 images). Some objects on the shelf may not be well captured as the images
 don't always get a good view of them.
