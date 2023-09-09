@@ -110,8 +110,8 @@ ns-train f3rm --data <data_folder>
 ```
 
 You can try F3RM with the example datasets which you can download following the
-instructions [here](#downloading-example-datasets) (you can try `panda/scene_001`). Alternatively, you can prepare your
-own datasets following the instructions in
+[instructions here](#downloading-example-datasets) (try out `panda/scene_001`). Alternatively, you can prepare your own
+datasets following the instructions in
 the [Nerfstudio documentation](https://docs.nerf.studio/en/latest/quickstart/custom_dataset.html).
 
 You do not need to run the training to completion. We save a checkpoint every 2000 steps by default. To see all the
