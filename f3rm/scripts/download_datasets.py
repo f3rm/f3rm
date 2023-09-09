@@ -22,7 +22,7 @@ _datasets = [
     _Dataset(
         name="rooms",
         url="https://drive.google.com/uc?id=1Kl84WHBN5VGTyuzKE9nd_HNrBQusEq21",
-        md5="c1606d4e0bfc9b5f702717fe209cd904",
+        md5="84dc1ec745c303a8e4da1c4a0871455e",
     ),
 ]
 
@@ -36,7 +36,17 @@ def get_dataset(name: str) -> _Dataset:
     return _name_to_dataset[name]
 
 
+def ask_yes_no(message: str) -> bool:
+    while True:
+        response = input(f"{message} [y/n]: ")
+        if response == "y":
+            return True
+        elif response == "n":
+            return False
+
+
 def download_dataset(name: str, save_dir: str):
+    print(f"=== Downloading {name} dataset ===")
     os.makedirs(save_dir, exist_ok=True)
 
     dataset = get_dataset(name)
@@ -46,7 +56,15 @@ def download_dataset(name: str, save_dir: str):
     if os.path.exists(zip_path):
         raise RuntimeError(f"{zip_path} already exists! Delete it if you want to re-download.")
 
-    # Download from Google Drive
+    # If dataset directory already exists, ask user if they want to overwrite it before continuing
+    dataset_dir = os.path.join(save_dir, name)
+    if os.path.exists(dataset_dir):
+        print(f"Dataset directory {dataset_dir} already exists!")
+        if ask_yes_no("Do you want to overwrite it?") is False:
+            print(f"Skipping {name} dataset.")
+            return
+
+    # Download zip from Google Drive
     print(f"Downloading {name} datasets to {save_dir}...")
     gdown.download(dataset.url, output=zip_path)
 
@@ -59,6 +77,7 @@ def download_dataset(name: str, save_dir: str):
     # Unzip and delete the zip file
     with zipfile.ZipFile(zip_path, "r") as f:
         f.extractall(save_dir)
+    print(f"Successfully downloaded {name} dataset to {dataset_dir}.")
     os.remove(zip_path)
 
 
