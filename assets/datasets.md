@@ -67,36 +67,30 @@ ___
 
 ## `rooms`
 
-The `rooms` datasets consist of room-scale scenes which we captured using our phones. These datasets similarly contain
-interesting objects which you can query via language using CLIP feature fields.
+The `rooms` datasets consist of larger scenes in rooms which we captured using our phones. These datasets similarly
+contain interesting objects which you can query via language using CLIP feature fields.
 
-### `george_the_panda`
+### `robot_room`
 
-<img src="images/dataset_previews/rooms/george_the_panda_1.jpg" width="400" alt="rooms/george_the_panda_1">&nbsp;
-<img src="images/dataset_previews/rooms/george_the_panda_2.jpg" width="400" alt="rooms/george_the_panda_2">
+<img src="images/dataset_previews/rooms/robot_room.jpg" width="500" alt="rooms/robot_room">
 
-This scene is of the room that George, our Panda robot, used to live in. The table and room contains a variety of
-objects, many of which are from the YCB dataset. There are 70 images with an original resolution of 3000x4000
-(Nerfstudio should automatically select the downscaled images for training). Some of the objects may not be fully picked
-up by the CLIP feature field as the source images do not get a good view of the object.
+This scene is of our robot room with a Spot and PR2 robot. There are a variety of objects in the
+scene which we encourage you to explore with CLIP feature fields. We list some of the objects below.
 
-**Objects Present:**
+- **Robots:** Spot robot holding a tennis racket, PR2 robot
+- **Small/medium objects:** book, screwdriver, hand sanitizer, mug, tape measure, pan, toys, tissue box, whisk, Raisin
+  Bran, Cheez-It box, Goldfish bag, can of SPAM, cables, spray cleaner, robot arm, robot gripper, Baymax, tablet.
+- **Large objects:** recycling bin, chair, table
 
-- **On the table:** electric screwdriver, Cheez-It box, Domino Sugar box, mustard bottle, strawberries, lemon, soup
-  cans, can of SPAM, can of tuna, brick, Lego toy, white bowl, tennis ball, baseball, WD-40 can, Jello box, Rubik's
-  cube, cleaning spray, toy gun
-- **In the room:** cabinet, office chairs, monitors
+### `back_office`
 
-### `pluto_the_spot`
+<img src="images/dataset_previews/rooms/back_office.jpg" width="500" alt="rooms/back_office">
 
-<img src="images/dataset_previews/rooms/pluto_the_spot_1.jpg" width="400" alt="rooms/pluto_the_spot_1">&nbsp;
-<img src="images/dataset_previews/rooms/pluto_the_spot_2.jpg" width="400" alt="rooms/pluto_the_spot_2">
+Scene of an office in Stata Center at MIT. Some objects on the shelf may not be well captured as the images don't always
+get a good view of them.
 
-This scene is of the room that Pluto, our Spot robot, lives in. You may notice that this is the same room as the
-`george_the_panda` dataset and you'd be right! There are `x` images in this scene. There are a variety of objects, both
-small and large in this scene.
-
-**Objects Present:**
-
-- **Small/medium objects:** fill in
-- **Large objects:** fill in
+- **Small objects:** books, toy plane, cables, Anki Cozmo (on shelf in box), frisbee, balls, computer mouse, headphones,
+  electric drill
+- **Medium objects:** inkjet printer, 3D printer (on shelf), roller blades (on ground), air purifier (on ground),
+  monitors, keyboards, tennis rackets, jacket (on chairs)
+- **Large objects:** chairs, tables, whiteboards, door, shelves, bags, boxes
