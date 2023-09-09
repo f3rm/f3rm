@@ -74,20 +74,20 @@ contain interesting objects which you can query via language using CLIP feature 
 
 <img src="images/dataset_previews/rooms/robot_room.jpg" width="500" alt="rooms/robot_room">
 
-This scene is of our robot room with a Spot and PR2 robot. There are a variety of objects in the
-scene which we encourage you to explore with CLIP feature fields. We list some of the objects below.
+This scene is of our robot room with a Spot and PR2 robot (257 images). There are a variety of objects in the scene
+which we encourage you to explore with CLIP feature fields. We list some of the objects below.
 
 - **Robots:** Spot robot holding a tennis racket, PR2 robot
 - **Small/medium objects:** book, screwdriver, hand sanitizer, mug, tape measure, pan, toys, tissue box, whisk, Raisin
   Bran, Cheez-It box, Goldfish bag, can of SPAM, cables, spray cleaner, robot arm, robot gripper, Baymax, tablet.
 - **Large objects:** recycling bin, chair, table
 
-### `back_office`
+### `stata_office`
 
-<img src="images/dataset_previews/rooms/back_office.jpg" width="500" alt="rooms/back_office">
+<img src="images/dataset_previews/rooms/stata_office.jpg" width="500" alt="rooms/back_office">
 
-Scene of an office in Stata Center at MIT. Some objects on the shelf may not be well captured as the images don't always
-get a good view of them.
+Scene of an office in Stata Center at MIT (257 images). Some objects on the shelf may not be well captured as the images
+don't always get a good view of them.
 
 - **Small objects:** books, toy plane, cables, Anki Cozmo (on shelf in box), frisbee, balls, computer mouse, headphones,
   electric drill
