@@ -23,6 +23,8 @@ The `panda` datasets are taken by the robot using an Intel RealSense D415 mounte
 consists of 50 1280x720 RGB images of a scene with various objects collected around the lab in various poses. The RGB
 sensor on the RealSense is not great, so the images do not have the highest quality.
 
+[Google Drive Link](https://drive.google.com/file/d/15iNJo57bIM2NMyKVs4JU_nzNvFzJ1ZRU/view?usp=drive_link)
+
 ### `scene_001`
 
 <img src="images/dataset_previews/panda/scene_001.jpg" width="450" alt="panda/scene_001">
@@ -69,6 +71,8 @@ ___
 
 The `rooms` datasets consist of larger scenes in rooms which we captured using our phones. These datasets similarly
 contain interesting objects which you can query via language using CLIP feature fields.
+
+[Google Drive Link](https://drive.google.com/file/d/1Kl84WHBN5VGTyuzKE9nd_HNrBQusEq21/view?usp=drive_link)
 
 ### `robot_room`
 
