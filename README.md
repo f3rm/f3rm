@@ -94,7 +94,7 @@ the `f3rm` environment.
 ### Downloading Example Datasets
 
 We provide example datasets which you can download using the `f3rm-download-data` command. By default, the script will
-download all the datasets (requires ~300MB disk space) into the `datasets/` directory relative to your current
+download all the datasets (requires ~300MB disk space) into the `datasets/f3rm` directory relative to your current
 directory.
 
 Run `f3rm-download-data -h` to see how to download specific datasets or set your own save directory. We provide a short
@@ -110,9 +110,9 @@ ns-train f3rm --data <data_folder>
 ```
 
 You can try F3RM with the example datasets which you can download following the
-[instructions here](#downloading-example-datasets) (try out `panda/scene_001`). Alternatively, you can prepare your own
-datasets following the instructions in
-the [Nerfstudio documentation](https://docs.nerf.studio/en/latest/quickstart/custom_dataset.html).
+[instructions here](#downloading-example-datasets) (try out `f3rm/panda/scene_001`). Alternatively, you can prepare your
+own datasets following the instructions in the
+[Nerfstudio documentation](https://docs.nerf.studio/en/latest/quickstart/custom_dataset.html).
 
 You do not need to run the training to completion. We save a checkpoint every 2000 steps by default. To see all the
 options available for training, run `ns-train f3rm -h`.
@@ -170,7 +170,7 @@ few seconds for this option to show up on the first query, as we load CLIP lazil
 
 <img src="assets/images/ns_viewer/similarity_option.png" width="400" alt="similarity in Output Render dropdown">
 
-We show the similarity heatmap over the `panda/scene_001` dataset for the "Baymax" query, with the negatives in the
+We show the similarity heatmap over the `f3rm/panda/scene_001` dataset for the "Baymax" query, with the negatives in the
 controls above (you can download this dataset using the `f3rm-download-data panda` command). Try playing around with
 different language queries and see what results you get!
 
@@ -205,10 +205,18 @@ please open an issue in this repository.
 
 ### Running out of GPU memory
 
-If you are running out of memory when using the viewer, try to decrease the rendering resolution. In the Nerfstudio
-viewer, you can change the `Max Res` under Render Options. This codebase was tested on a RTX3090 with 24GB of GPU
-memory. We observe a peak memory usage of ~18GB when training a CLIP feature field and using the viewer with a `Max Res`
-of 512.
+This codebase was tested on a RTX3090 with 24GB of GPU memory. We observe a peak memory usage of ~6GB when training a
+CLIP feature field **without** using the viewer. When the viewer is used in conjunction with training, the peak memory
+usage is ~12GB.
+
+If you are running out of memory when using the Nerfstudio viewer, try:
+
+1. Decreasing the number of rays per batch when rendering by using the `--pipeline.model.eval-num-rays-per-chunk 8192`
+   flag when running `ns-train`.
+    - The default rays per chunk is 16384, which uses ~12GB of memory (at `Max Res = 512`).
+    - 8192 rays per chunk uses ~10GB memory. Decreasing this number will further reduce memory usage, at the cost of
+      slower rendering.
+2. Decrease the rendering resolution in `Max Res` under Render Options in the Nerfstudio viewer.
 
 If you are running out of memory during any other stages, please open a GitHub issue and we will try to help.
 

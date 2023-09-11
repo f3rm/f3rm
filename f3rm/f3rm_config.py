@@ -28,7 +28,10 @@ f3rm_method = MethodSpecification(
                     optimizer=AdamOptimizerConfig(lr=6e-4, eps=1e-8, weight_decay=1e-2),
                 ),
             ),
-            model=FeatureFieldModelConfig(eval_num_rays_per_chunk=1 << 15),
+            # To support more GPUs, we reduce the num rays per chunk. The default was 1 << 15 which uses ~16GB of GPU
+            # memory when training and using viewer. 1 << 14 uses ~12GB of GPU memory in comparison. The decrease in
+            # rendering speed is not too important.
+            model=FeatureFieldModelConfig(eval_num_rays_per_chunk=1 << 14),
         ),
         optimizers={
             "proposal_networks": {

@@ -94,7 +94,7 @@ def main():
         default="all",
     )
     parser.add_argument(
-        "--save_dir", "-s", type=str, help="Directory to save the downloaded datasets to.", default="./datasets"
+        "--save_dir", "-s", type=str, help="Directory to save the downloaded datasets to.", default="./datasets/f3rm"
     )
     args = parser.parse_args()
 
