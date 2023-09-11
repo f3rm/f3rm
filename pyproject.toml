@@ -1,6 +1,6 @@
 [project]
 name = "f3rm"
-version = "0.0.1"
+version = "0.0.2"
 description = "F3RM: Feature Fields for Robotic Manipulation"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -14,7 +14,9 @@ authors = [
 dependencies = [
     "einops",
     "ftfy",
+    "gdown",
     "matplotlib",
+    "nerfstudio>=0.3.3",
     "numpy",
     "pillow",
     "regex",
@@ -28,9 +30,21 @@ dev = [
     "isort",
 ]
 
+[tool.black]
+line-length = 120
+
 [project.urls]
 "Homepage" = "https://f3rm.csail.mit.edu"
 "Source" = "https://github.com/f3rm/f3rm"
+
+[project.entry-points."nerfstudio.method_configs"]
+f3rm = "f3rm.f3rm_config:f3rm_method"
+
+[project.scripts]
+f3rm-download-data = "f3rm.scripts.download_datasets:main"
+
+[tool.setuptools.packages]
+find = { include = ["f3rm", "f3rm.*"] }
 
 [build-system]
 requires = ["setuptools>=43.0.0", "wheel"]

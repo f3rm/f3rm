@@ -49,6 +49,4 @@ def apply_pca_colormap(
     low_rank_max: Optional[TensorType] = None,
     niter: int = 5,
 ) -> TensorType["bs":..., "rgb":3]:
-    return apply_pca_colormap_return_proj(
-        image, proj_V, low_rank_min, low_rank_max, niter
-    )[0]
+    return apply_pca_colormap_return_proj(image, proj_V, low_rank_min, low_rank_max, niter)[0]

@@ -10,3 +10,8 @@ __pycache__/
 **/demo_extract_features.png
 **/demo_clip_features*.png
 
+# Datasets
+datasets/
+
+# Nerfstudio outputs
+outputs/
