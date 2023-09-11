@@ -1,4 +1,4 @@
-# Datasets
+# F3RM Datasets
 
 We provide a short descriptions of the example datasets we provide through the `f3rm-download-data` command.
 
