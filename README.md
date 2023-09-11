@@ -2,6 +2,8 @@
 
 ### [🌐 Project Website](https://f3rm.github.io) | [📝 Paper](https://arxiv.org/abs/2308.07931) | [🎥 Video](https://www.youtube.com/watch?v=PA9rWWVWsc4)
 
+**F3RM:** Feature Fields for Robotic Manipulation
+
 We distill features from 2D foundation models into 3D feature fields, and enable few-shot language-guided manipulation
 that generalizes across object poses, shapes, appearances and categories.
 
