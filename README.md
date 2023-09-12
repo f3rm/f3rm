@@ -151,7 +151,7 @@ their [documentation](https://docs.nerf.studio/en/latest/quickstart/viewer_quick
 To visualize the PCA of the features, select `feature_pca` in the `Render Options -> Output Render` dropdown box.
 Note that the initial PCA projection matrix is computed based on the features rendered at your current viewpoint.
 
-<img src="assets/images/ns_viewer/feature-pca_option.png" width="400" alt="feature_pca in Output Render dropdown">
+<img src="https://raw.githubusercontent.com/f3rm/f3rm/main/assets/images/ns_viewer/feature-pca_option.png" width="400" alt="feature_pca in Output Render dropdown">
 
 To recompute the PCA projection based on your current viewpoint, click the "Refresh PCA Projection" button under
 `Trainer/pipeline/model` near the bottom of the controls.
@@ -163,18 +163,18 @@ under `Trainer/pipeline/model` near the bottom of the controls panel. You can en
 (separated by `,` commas), which will compute similarity heatmaps. You will need to click out of the text box or press
 the enter key to submit the query.
 
-<img src="assets/images/ns_viewer/f3rm_controls.png" width="400" alt="Additional Controls for F3RM in the Nerfstudio Viewer">
+<img src="https://raw.githubusercontent.com/f3rm/f3rm/main/assets/images/ns_viewer/f3rm_controls.png" width="400" alt="Additional Controls for F3RM in the Nerfstudio Viewer">
 
 To visualize these heatmaps, select `similarity` in the `Render Options -> Output Render` dropdown box. It may take a
 few seconds for this option to show up on the first query, as we load CLIP lazily.
 
-<img src="assets/images/ns_viewer/similarity_option.png" width="400" alt="similarity in Output Render dropdown">
+<img src="https://raw.githubusercontent.com/f3rm/f3rm/main/assets/images/ns_viewer/similarity_option.png" width="400" alt="similarity in Output Render dropdown">
 
 We show the similarity heatmap over the `f3rm/panda/scene_001` dataset for the "Baymax" query, with the negatives in the
 controls above (you can download this dataset using the `f3rm-download-data panda` command). Try playing around with
 different language queries and see what results you get!
 
-<img src="assets/images/ns_viewer/baymax_heatmap.png" width="500" alt="similarity in Output Render dropdown">
+<img src="https://raw.githubusercontent.com/f3rm/f3rm/main/assets/images/ns_viewer/baymax_heatmap.png" width="500" alt="similarity in Output Render dropdown">
 
 **Note:** if multiple positive queries are specified, we average their CLIP embeddings before computing the pair-wise
 softmax described in Section 3.3 of the [paper](https://arxiv.org/abs/2308.07931). The default temperature of 0.1 works
