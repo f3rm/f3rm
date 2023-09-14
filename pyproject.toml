@@ -33,6 +33,12 @@ dev = [
     "black",
     "isort",
 ]
+viewer = [
+    "vuer",
+    "aiohttp_cors",
+    "pypng",
+    "killport",
+]
 
 [tool.black]
 line-length = 120

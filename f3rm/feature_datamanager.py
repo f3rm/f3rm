@@ -32,24 +32,34 @@ class FeatureDataManager(VanillaDataManager):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        test_mode = kwargs["test_mode"]
 
         if self.config.feature_type not in feat_type_to_extract_fn:
             raise ValueError(f"Unknown feature type {self.config.feature_type}")
         extract_fn = feat_type_to_extract_fn[self.config.feature_type]
 
-        # Extract features
+        # Get image filenames, if inference mode only use one image to get feature dimensionality
         image_fnames = self.train_dataset.image_filenames + self.eval_dataset.image_filenames
+        if test_mode == "inference":
+            CONSOLE.print("Inference mode, only using one image to get feature dimensionality")
+            image_fnames = image_fnames[:1]
+
+        # Extract features
         CONSOLE.print(f"Extracting {self.config.feature_type} features for {len(image_fnames)} images...")
         features = extract_fn(image_fnames, self.device)
+
+        # Set metadata, so we can initialize model with feature dimensionality
+        self.train_dataset.metadata["feature_type"] = self.config.feature_type
+        self.train_dataset.metadata["feature_dim"] = features.shape[-1]
+
+        # If inference mode then we're done as we only needed to set the metadata to initialize the model
+        if test_mode == "inference":
+            return
 
         # Split into train and eval features
         self.train_features = features[: len(self.train_dataset)]
         self.eval_features = features[len(self.train_dataset) :]
         assert len(self.eval_features) == len(self.eval_dataset)
-
-        # Set metadata, so we can initialize model with feature dimensionality
-        self.train_dataset.metadata["feature_type"] = self.config.feature_type
-        self.train_dataset.metadata["feature_dim"] = self.train_features.shape[-1]
 
         # Determine scaling factors for nearest neighbor interpolation
         feat_h, feat_w = features.shape[1:3]

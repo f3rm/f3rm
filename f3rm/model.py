@@ -126,6 +126,7 @@ class FeatureFieldModel(NerfactoModel):
             if self._clip_model is None:
                 CONSOLE.print(f"Loading CLIP {CLIPArgs.model_name} for Nerfstudio viewer")
                 self._clip_model, _ = load(CLIPArgs.model_name, device=device)
+                self._clip_model.eval()
 
         @torch.no_grad()
         def update_gui_state(element: ViewerText, is_positive: bool):
