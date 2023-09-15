@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from functools import cached_property
 from typing import Dict, List, Optional, Type
 
 import torch
@@ -46,12 +47,49 @@ class FeatureFieldModelConfig(NerfactoModelConfig):
 
 
 @dataclass
-class _GuiState:
+class ViewerUtils:
+    pca_proj: Optional[torch.Tensor] = None
     positives: List[str] = field(default_factory=list)
     pos_embed: Optional[torch.Tensor] = None
     negatives: List[str] = field(default_factory=list)
     neg_embed: Optional[torch.Tensor] = None
     softmax_temp: float = 0.1
+    device: Optional[torch.device] = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    @cached_property
+    def clip(self):
+        from f3rm.features.clip import load
+        from f3rm.features.clip_extract import CLIPArgs
+
+        CONSOLE.print(f"Loading CLIP {CLIPArgs.model_name} for viewer")
+        model, _ = load(CLIPArgs.model_name, device=self.device)
+        model.eval()
+        return model
+
+    @torch.no_grad()
+    def handle_language_queries(self, raw_text: str, is_positive: bool):
+        """Compute CLIP embeddings based on queries and update state"""
+        from f3rm.features.clip import tokenize
+
+        texts = [x.strip() for x in raw_text.split(",") if x.strip()]
+        # Clear the GUI state if there are no texts
+        if not texts:
+            self.clear_positives() if is_positive else self.clear_negatives()
+            return
+        # Embed text queries
+        tokens = tokenize(texts).to(self.device)
+        embed = self.clip.encode_text(tokens).float()
+        if is_positive:
+            self.positives = texts
+            # Average embedding if we have multiple positives
+            embed = embed.mean(dim=0, keepdim=True)
+            embed /= embed.norm(dim=-1, keepdim=True)
+            self.pos_embed = embed
+        else:
+            self.negatives = texts
+            # We don't average the negatives as we compute pair-wise softmax
+            embed /= embed.norm(dim=-1, keepdim=True)
+            self.neg_embed = embed
 
     @property
     def has_positives(self) -> bool:
@@ -69,14 +107,23 @@ class _GuiState:
         self.negatives.clear()
         self.neg_embed = None
 
+    def update_softmax_temp(self, temp: float):
+        self.softmax_temp = temp
+
+    def reset_pca_proj(self):
+        self.pca_proj = None
+        CONSOLE.print("Reset PCA projection")
+
+
+# unenforced singleton
+viewer_utils = ViewerUtils()
+
 
 class FeatureFieldModel(NerfactoModel):
     config: FeatureFieldModelConfig
 
     feature_field: FeatureField
     renderer_feature: FeatureRenderer
-    pca_proj: Optional[torch.Tensor] = None
-    gui_state: _GuiState = _GuiState()
 
     def populate_modules(self):
         super().populate_modules()
@@ -103,73 +150,28 @@ class FeatureFieldModel(NerfactoModel):
         self.setup_gui()
 
     def setup_gui(self):
-        def refresh_pca_proj(_: ViewerButton):
-            self.pca_proj = None
-            CONSOLE.print("PCA projection cleared")
-
-        self.btn_refresh_pca = ViewerButton("Refresh PCA Projection", cb_hook=refresh_pca_proj)
-
-        # Setup GUI for language features if we're using CLIP
-        if self.kwargs["metadata"]["feature_type"] == "CLIP":
-            self.setup_language_gui()
-
-    def setup_language_gui(self):
-        from f3rm.features.clip import load, tokenize
-        from f3rm.features.clip_extract import CLIPArgs
-
-        device = self.kwargs["device"]
-        gui_state = self.gui_state
-        self._clip_model = None
-
-        # Load CLIP lazily to avoid loading it when not needed
-        def load_clip_model():
-            if self._clip_model is None:
-                CONSOLE.print(f"Loading CLIP {CLIPArgs.model_name} for Nerfstudio viewer")
-                self._clip_model, _ = load(CLIPArgs.model_name, device=device)
-                self._clip_model.eval()
-
-        @torch.no_grad()
-        def update_gui_state(element: ViewerText, is_positive: bool):
-            """Compute CLIP embeddings based on text and update GUI state"""
-            load_clip_model()
-            texts = [x.strip() for x in element.value.split(",") if x.strip()]
-            # Clear the GUI state if there are no texts
-            if not texts:
-                gui_state.clear_positives() if is_positive else gui_state.clear_negatives()
-                return
-            # Embed text queries
-            tokens = tokenize(texts).to(device)
-            embed = self._clip_model.encode_text(tokens).float()
-            if is_positive:
-                gui_state.positives = texts
-                # Average embedding if we have multiple positives
-                embed = embed.mean(dim=0, keepdim=True)
-                embed /= embed.norm(dim=-1, keepdim=True)
-                gui_state.pos_embed = embed
-            else:
-                gui_state.negatives = texts
-                # We don't average the negatives as we compute pair-wise softmax
-                embed /= embed.norm(dim=-1, keepdim=True)
-                gui_state.neg_embed = embed
-
-        def update_softmax(element: ViewerNumber):
-            gui_state.softmax_temp = element.value
-            CONSOLE.print("Updated softmax temperature to", gui_state.softmax_temp)
-
+        viewer_utils.device = self.kwargs["device"]
         # Note: the GUI elements are shown based on alphabetical variable names
+        self.btn_refresh_pca = ViewerButton("Refresh PCA Projection", cb_hook=lambda _: viewer_utils.reset_pca_proj())
+
+        # Only setup GUI for language features if we're using CLIP
+        if self.kwargs["metadata"]["feature_type"] != "CLIP":
+            return
         self.hint_text = ViewerText(name="Note:", disabled=True, default_value="Use , to separate labels")
         self.lang_1_pos_text = ViewerText(
             name="Language (Positives)",
             default_value="",
-            cb_hook=lambda elem: update_gui_state(elem, is_positive=True),
+            cb_hook=lambda elem: viewer_utils.handle_language_queries(elem.value, is_positive=True),
         )
         self.lang_2_neg_text = ViewerText(
             name="Language (Negatives)",
             default_value="",
-            cb_hook=lambda elem: update_gui_state(elem, is_positive=False),
+            cb_hook=lambda elem: viewer_utils.handle_language_queries(elem.value, is_positive=False),
         )
         self.softmax_temp = ViewerNumber(
-            name="Softmax temperature", default_value=gui_state.softmax_temp, cb_hook=update_softmax
+            name="Softmax temperature",
+            default_value=viewer_utils.softmax_temp,
+            cb_hook=lambda elem: viewer_utils.update_softmax_temp(elem.value),
         )
 
     def get_param_groups(self) -> Dict[str, List[Parameter]]:
@@ -252,10 +254,12 @@ class FeatureFieldModel(NerfactoModel):
         outputs = super().get_outputs_for_camera_ray_bundle(camera_ray_bundle)
 
         # Compute PCA of features separately, so we can reuse the same projection matrix
-        outputs["feature_pca"], self.pca_proj, *_ = apply_pca_colormap_return_proj(outputs["feature"], self.pca_proj)
+        outputs["feature_pca"], viewer_utils.pca_proj, *_ = apply_pca_colormap_return_proj(
+            outputs["feature"], viewer_utils.pca_proj
+        )
 
         # Nothing else to do if not CLIP features or no positives
-        if self.kwargs["metadata"]["feature_type"] != "CLIP" or not self.gui_state.has_positives:
+        if self.kwargs["metadata"]["feature_type"] != "CLIP" or not viewer_utils.has_positives:
             return outputs
 
         # Normalize CLIP features rendered by feature field
@@ -263,8 +267,8 @@ class FeatureFieldModel(NerfactoModel):
         clip_features /= clip_features.norm(dim=-1, keepdim=True)
 
         # If there are no negatives, just show the cosine similarity with the positives
-        if not self.gui_state.has_negatives:
-            sims = clip_features @ self.gui_state.pos_embed.T
+        if not viewer_utils.has_negatives:
+            sims = clip_features @ viewer_utils.pos_embed.T
             # Show the mean similarity if there are multiple positives
             if sims.shape[-1] > 1:
                 sims = sims.mean(dim=-1, keepdim=True)
@@ -272,7 +276,7 @@ class FeatureFieldModel(NerfactoModel):
             return outputs
 
         # Use paired softmax method as described in the paper with positive and negative texts
-        text_embs = torch.cat([self.gui_state.pos_embed, self.gui_state.neg_embed], dim=0)
+        text_embs = torch.cat([viewer_utils.pos_embed, viewer_utils.neg_embed], dim=0)
         raw_sims = clip_features @ text_embs.T
 
         # Broadcast positive label similarities to all negative labels
@@ -281,7 +285,7 @@ class FeatureFieldModel(NerfactoModel):
         paired_sims = torch.cat([pos_sims, neg_sims], dim=-1)
 
         # Compute paired softmax
-        probs = (paired_sims / self.gui_state.softmax_temp).softmax(dim=-1)[..., :1]
+        probs = (paired_sims / viewer_utils.softmax_temp).softmax(dim=-1)[..., :1]
         torch.nan_to_num_(probs, nan=0.0)
         sims, _ = probs.min(dim=-1, keepdim=True)
         outputs["similarity"] = sims
