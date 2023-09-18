@@ -1,6 +1,6 @@
 [project]
 name = "f3rm"
-version = "0.0.3"
+version = "0.0.4"
 description = "F3RM: Feature Fields for Robotic Manipulation"
 readme = "README.md"
 requires-python = ">=3.8"

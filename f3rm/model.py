@@ -115,7 +115,6 @@ class ViewerUtils:
         CONSOLE.print("Reset PCA projection")
 
 
-# unenforced singleton
 viewer_utils = ViewerUtils()
 
 
