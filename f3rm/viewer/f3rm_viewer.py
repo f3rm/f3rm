@@ -168,7 +168,7 @@ async def render(
 
     if primary_output.shape[-1] == 3:
         rgb = primary_output
-        rgba = torch.cat([rgb, alpha], dim=-1)
+        rgba = torch.cat([rgb, alpha], dim=-1).cpu().numpy()
     elif primary_output.shape[-1] == 1:
         cmap = get_colormap(colormap, normalize=normalize, clip=clip, gain=gain)
 
@@ -177,7 +177,7 @@ async def render(
         rgba[:, :, 3] = alpha_np
     else:
         raise ValueError(f"Invalid primary output shape {primary_output.shape}")
-    rgb_encoded = b64jpg(rgba.cpu().numpy())
+    rgb_encoded = b64jpg(rgba)
 
     # FIXME: the camera height and width is different from the frontend one by rounding error.
     yield ServerEvent(etype="RENDER", data={"rgb": rgb_encoded, "alpha": alpha_encoded})
@@ -198,7 +198,7 @@ async def run_eval(ws_id):
 
     doc.set @ scene
 
-    while True:
+    while ws_id in doc.ws:
         await sleep(0)
         event = doc.pop()
 
