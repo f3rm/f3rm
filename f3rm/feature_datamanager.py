@@ -43,6 +43,9 @@ class FeatureDataManager(VanillaDataManager):
         if test_mode == "inference":
             CONSOLE.print("Inference mode, only using one image to get feature dimensionality")
             image_fnames = image_fnames[:1]
+            self.train_dataset.metadata["feature_type"] = self.config.feature_type
+            self.train_dataset.metadata["feature_dim"] = 768
+            return
 
         # Extract features
         CONSOLE.print(f"Extracting {self.config.feature_type} features for {len(image_fnames)} images...")

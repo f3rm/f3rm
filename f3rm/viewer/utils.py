@@ -16,6 +16,40 @@ CAMERA_TYPES = {
 }
 
 
+def get_colormap(colormap, clip=None, gain=1.0, normalize=False):
+    """
+    https://matplotlib.org/3.1.0/tutorials/colors/colormaps.html
+    get color map from matplotlib
+    returns color_map function with signature (x, mask=None),
+    where mask is the mask-in for the colormap.
+
+    """
+    import matplotlib.cm as cm
+
+    cmap = cm.get_cmap(colormap)
+
+    def map_color(x, mask=None):
+        if clip is not None:
+            x = x.clip(*clip)
+
+        if gain is not None:
+            x *= gain
+
+        if normalize:
+            if mask is None or mask.sum() == 0:
+                min, max = x.min(), x.max()
+            else:
+                min, max = x[mask].min(), x[mask].max()
+
+            x -= min
+            x /= max - min + 1e-6
+            x[x < 0] = 0
+
+        return cmap(x)
+
+    return map_color
+
+
 def rotation_matrix(x, y, z, order="xyz"):
     """
     input
