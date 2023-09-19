@@ -93,9 +93,9 @@ the `f3rm` environment.
 
 ### Downloading Example Datasets
 
-We provide example datasets which you can download using the `f3rm-download-data` command. By default, the script will
-download all the datasets (requires ~300MB disk space) into the `datasets/f3rm` directory relative to your current
-directory.
+We provide example datasets of tabletop and room-scale environments which you can download using
+the `f3rm-download-data` command. By default, the script will download all the datasets (requires ~300MB disk space)
+into the `datasets/f3rm` directory relative to your current directory.
 
 Run `f3rm-download-data -h` to see how to download specific datasets or set your own save directory. We provide a short
 description and preview of each dataset in [assets/datasets.md](assets/datasets.md).
@@ -113,6 +113,9 @@ You can try F3RM with the example datasets which you can download following the
 [instructions here](#downloading-example-datasets) (try out `f3rm/panda/scene_001`). Alternatively, you can prepare your
 own datasets following the instructions in the
 [Nerfstudio documentation](https://docs.nerf.studio/en/latest/quickstart/custom_dataset.html).
+
+Note that while we focused on tabletop environments in the paper, F3RM can be scaled up to much larger environments. Try
+training feature fields on the example [rooms datasets](assets/datasets.md#rooms).
 
 You do not need to run the training to completion. We save a checkpoint every 2000 steps by default. To see all the
 options available for training, run `ns-train f3rm -h`.
