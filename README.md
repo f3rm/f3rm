@@ -177,7 +177,7 @@ We show the similarity heatmap over the `f3rm/panda/scene_001` dataset for the "
 controls above (you can download this dataset using the `f3rm-download-data panda` command). Try playing around with
 different language queries and see what results you get!
 
-<img src="https://raw.githubusercontent.com/f3rm/f3rm/main/assets/images/ns_viewer/baymax_heatmap.png" width="500" alt="similarity in Output Render dropdown">
+<img src="https://raw.githubusercontent.com/f3rm/f3rm/main/assets/images/ns_viewer/baymax_heatmap.png" width="500" alt="similarity heatmap for Baymax">
 
 **Note:** if multiple positive queries are specified, we average their CLIP embeddings before computing the pair-wise
 softmax described in Section 3.3 of the [paper](https://arxiv.org/abs/2308.07931). The default temperature of 0.1 works
