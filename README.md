@@ -163,10 +163,10 @@ your browser to visualize training progress and the feature field. Alternatively
 run `ns-viewer --load-config {outputs/.../config.yml}`.
 
 Note that if you are using a remote server, you will need to forward the port to your local machine
-([instructions](https://docs.nerf.studio/en/latest/quickstart/viewer_quickstart.html#training-on-a-remote-machine)).
+([instructions](https://docs.nerf.studio/quickstart/viewer_quickstart.html#training-on-a-remote-machine)).
 The default port used by Nerfstudio is 7007, but check the viewer URL to make sure. For a general guide on how to use
 the Nerfstudio viewer, check out
-their [documentation](https://docs.nerf.studio/en/latest/quickstart/viewer_quickstart.html).
+their [documentation](https://docs.nerf.studio/quickstart/viewer_quickstart.html).
 
 #### Visualizing the Feature Field PCA
 
