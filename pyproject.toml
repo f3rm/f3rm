@@ -1,6 +1,6 @@
 [project]
 name = "f3rm"
-version = "0.0.4"
+version = "0.0.5"
 description = "F3RM: Feature Fields for Robotic Manipulation"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -63,6 +63,7 @@ find = { include = ["f3rm", "f3rm.*", "f3rm_robot", "f3rm_robot.*"] }
 "f3rm.scripts.images" = ["*.png"]  # images for demo CLIP and DINO features
 "f3rm.features.clip" = ["bpe_simple_vocab_16e6.txt.gz", "README.md"]  # CLIP assets
 "f3rm_robot" = ["README.md"]
+"f3rm_robot.assets" = ["panda_gripper_visual.obj", "tasks/*.pt"]
 
 [build-system]
 requires = ["setuptools>=61.0"]
