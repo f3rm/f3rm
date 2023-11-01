@@ -46,7 +46,7 @@ class ViserVisualizer(BaseVisualizer):
                 text="Visualizer Guide",
                 icon="Description",
                 # TODO: update this URL when merging into main
-                href="https://github.com/williamshen-nz/f3rm/tree/f3rm_robot/f3rm_robot#using-the-visualizer",
+                href="https://github.com/f3rm/f3rm/tree/f3rm_robot/f3rm_robot#using-the-visualizer",
             ),
         )
 
