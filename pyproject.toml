@@ -33,6 +33,14 @@ dev = [
     "black",
     "isort",
 ]
+robot = [
+    "open3d",
+    "params-proto",
+    "PyMCubes",
+    "python-slugify",
+    # Loosen version requirements when viser is more stable
+    "viser==0.1.7"
+]
 
 [tool.black]
 line-length = 120
@@ -46,13 +54,15 @@ f3rm = "f3rm.f3rm_config:f3rm_method"
 
 [project.scripts]
 f3rm-download-data = "f3rm.scripts.download_datasets:main"
+f3rm-optimize = "f3rm_robot.optimize:entrypoint"
 
 [tool.setuptools.packages]
-find = { include = ["f3rm", "f3rm.*"] }
+find = { include = ["f3rm", "f3rm.*", "f3rm_robot", "f3rm_robot.*"] }
 
 [tool.setuptools.package-data]
 "f3rm.scripts.images" = ["*.png"]  # images for demo CLIP and DINO features
 "f3rm.features.clip" = ["bpe_simple_vocab_16e6.txt.gz", "README.md"]  # CLIP assets
+"f3rm_robot" = ["README.md"]
 
 [build-system]
 requires = ["setuptools>=61.0"]

@@ -11,6 +11,11 @@ ___
     - [`scene_002`](#scene_002)
     - [`scene_003`](#scene_003)
     - [`scene_004`](#scene_004)
+- [`panda_demos`](#panda_demos)
+    - [`caterpillar`](#caterpillar)
+    - [`mug`](#mug)
+    - [`rack`](#rack)
+    - [`screwdriver`](#screwdriver)
 - [`rooms`](#rooms)
     - [`robot_room`](#robot_room)
     - [`stata_office`](#stata_office)
@@ -22,6 +27,12 @@ ___
 The `panda` datasets are taken by the robot using an Intel RealSense D415 mounted on a selfie stick. Each dataset
 consists of 50 1280x720 RGB images of a scene with various objects collected around the lab in various poses. The RGB
 sensor on the RealSense is not great, so the images do not have the highest quality.
+
+We also include a `nerf_to_world.json` file which contains the transformation that takes points from the NeRF coordinate
+frame to the world frame (scale, rotation and translation). Note that the NeRF coordinate frame is the frame given by
+Nerfstudio **after** the default processing of the poses from COLMAP in `transforms.json` (as of nerfstudio version
+0.3.3 which
+[auto-scales, centers and auto-orients poses](https://github.com/nerfstudio-project/nerfstudio/blob/v0.3.3/nerfstudio/data/dataparsers/nerfstudio_dataparser.py#L56-L61)).
 
 [Google Drive (66MB)](https://drive.google.com/file/d/15iNJo57bIM2NMyKVs4JU_nzNvFzJ1ZRU/view?usp=drive_link)
 
@@ -64,6 +75,44 @@ hedgehog", "bowtie" and "colorful toys".
 **Objects Present:** medium-size Baymax plush toy, large Baymax plush toy, hedgehog plush toy, caterpillar plush toy,
 toy gun, green toy with strands, teddy bear with bowtie, lego house, lego figure, mango
 
+---
+
+## `panda_demos`
+
+The `panda_demos` datasets are the datasets we used for the demonstrations. They were taken using the same setup as the
+[`panda`](#panda) datasets. In addition to the `transforms.json` and `nerf_to_world.json`, we also include
+`scene_demo*.json` files which contain the demo 6-DOF poses for each scene. Note that the poses are specified in the
+world coordinate frame.
+
+We include an example of how to use these demos to generate task embeddings in
+the [FAQ in `f3rm_robot`](../f3rm_robot/README.md#faq).
+
+[Google Drive (68MB)](https://drive.google.com/file/d/1ljKdj5Jpkq3p5rJPMRZHfAVw5IKZKAJ5/view?usp=drive_link)
+
+### `caterpillar`
+
+<img src="images/dataset_previews/panda_demos/caterpillar.jpg" width="450" alt="panda_demos/caterpillar">
+
+- `scene_demo.json` contains two grasps, one for the Caterpillar's left ear and one for its right ear.
+
+### `mug`
+
+<img src="images/dataset_previews/panda_demos/mug.jpg" width="450" alt="panda_demos/mug">
+
+- `scene_demo_handle.json` contains two grasps, one for the red mug's handle and one for the white mug's handle.
+- `scene_demo_lip.json` contains two grasps, one for the red mug's lip and one for the white mug's lip.
+
+### `rack`
+
+<img src="images/dataset_previews/panda_demos/rack.jpg" width="450" alt="panda_demos/rack">
+
+- `scene_demo.json` contains two place poses on separate pegs on the rack.
+
+### `screwdriver`
+
+<img src="images/dataset_previews/panda_demos/screwdriver.jpg" width="450" alt="panda_demos/screwdriver">
+
+- `scene_demo.json` contains two grasps, one for the orange screwdriver and one for black screwdriver in the tool rack.
 
 ___
 

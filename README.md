@@ -7,7 +7,7 @@
 We distill features from 2D foundation models into 3D feature fields, and enable few-shot language-guided manipulation
 that generalizes across object poses, shapes, appearances and categories.
 
-**[William Shen](https://shen.nz)<sup>\*1</sup>, [Ge Yang](https://www.episodeyang.com/)<sup>\*2</sup>,
+**[William Shen](https://shen.nz)<sup>\*1</sup>, [Ge Yang](https://www.episodeyang.com/)<sup>\*1,2</sup>,
 [Alan Yu](https://www.linkedin.com/in/alan-yu1/)<sup>1</sup>,
 [Jansen Wong](https://www.linkedin.com/in/jansenwong/)<sup>1</sup>,
 [Leslie Kaelbling](https://people.csail.mit.edu/lpk/)<sup>1</sup>,
@@ -28,13 +28,16 @@ CoRL 2023 (Oral)
     - [Using our Custom Viewer](#using-our-custom-viewer)
     - [Using the Nerfstudio Viewer](#using-the-nerfstudio-viewer)
     - [Extracting CLIP and DINO Features](#extracting-clip-and-dino-features)
+    - [Language-Guided Pose Optimization](#language-guided-pose-optimization)
 - [Troubleshooting](#troubleshooting)
 - [Citation](#citation)
 
 ## Code
 
-We currently release our implementation for training feature fields. We will release our custom viewer and the robot
-manipulation code soon.
+We provide the official implementation of F3RM for:
+
+1. Training Feature Fields
+2. 6-DOF Pose Optimization for Open-Text Language-Guided Manipulation
 
 F3RM is built on top of [Nerfstudio](https://github.com/nerfstudio-project/nerfstudio) following their
 [guide for adding new methods](https://docs.nerf.studio/en/latest/developer_guides/new_methods.html). For a summary
@@ -88,6 +91,22 @@ ns-train --help
 in the `f3rm` conda environment. Run `which -a ns-train` and check that the first entry points to
 `$CONDA_PREFIX/bin/ns-train`. If it doesn't, then you may need to deactivate all conda environments and only activate
 the `f3rm` environment.
+
+#### 4. (Optional) Install dependencies for robot manipulation code
+
+Make sure your conda environment is activated before running the following commands.
+
+```bash
+# Install robot dependencies
+pip install -e ".[robot]"
+
+# Install PyTorch3D, we recommend you build from source which may take a few minutes
+# Alternatively, check: https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md
+pip install "git+https://github.com/facebookresearch/pytorch3d.git@stable"
+
+# Test your installation. If you see a help message, everything should be working
+f3rm-optimize --help
+```
 
 ## Usage
 
@@ -197,6 +216,13 @@ use these features for your own NeRF pipeline or for other downstream applicatio
   given
   text query, and will save a plot to `demo_clip_features-{text_query}.png`.
 
+### Language-Guided Pose Optimization
+
+For details on how to run the 6-DOF pose optimization code for language-guided manipulation, please
+check [f3rm_robot/README.md](f3rm_robot/README.md). A detailed tutorial is provided.
+
+[<img src="assets/images/f3rm_robot/optimize.gif" width="500" alt="Language-Guided Pose Optimization Visualizer">](f3rm_robot/README.md)
+
 ## Troubleshooting
 
 ### Language queries are not working in Nerfstudio viewer
@@ -232,16 +258,18 @@ We thank the authors of the following projects for making their code open source
 - [CLIP](https://github.com/openai/CLIP)
 - [DINO](https://github.com/facebookresearch/dino)
   and [dino-vit-features](https://github.com/ShirAmir/dino-vit-features)
+- [Viser](https://github.com/nerfstudio-project/viser)
 
 ## Citation
 
 If you find our work useful, please consider citing:
 
 ```
-@article{shen2023F3RM,
+@inproceedings{shen2023F3RM,
     title={Distilled Feature Fields Enable Few-Shot Language-Guided Manipulation},
     author={Shen, William and Yang, Ge and Yu, Alan and Wong, Jansen and Kaelbling, Leslie Pack, and Isola, Phillip},
-    journal={arXiv preprint:2308.07931},
-    year={2023}
+    booktitle={7th Annual Conference on Robot Learning},
+    year={2023},
+    url={https://openreview.net/forum?id=Rb0nGIt_kh5}
 }
 ```
