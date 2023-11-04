@@ -294,3 +294,11 @@ when using `f3rm-optimize`.
 - `--ray-samples-per-batch` changes the batch size for optimization. The default is `2**18 = 262144`.
 - `--CollisionArgs.ray-samples-per-batch` changes the batch size for collision checking. The default
   is `2**22 = 4194304`.
+
+### ValueError: Could not find nerf_to_world.json in ...
+
+You likely previously downloaded the datasets before the robot code was released. Try re-downloading the datasets using
+`f3rm-download-data panda`. We added the calibration between the NeRF and world coordinate frames in the
+`nerf_to_world.json` file.
+
+For `f3rm/panda/scene_001` you will need to retrain your NeRF and feature field as the `transforms.json` was updated.
