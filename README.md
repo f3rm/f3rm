@@ -270,7 +270,7 @@ If you find our work useful, please consider citing:
 ```
 @inproceedings{shen2023F3RM,
     title={Distilled Feature Fields Enable Few-Shot Language-Guided Manipulation},
-    author={Shen, William and Yang, Ge and Yu, Alan and Wong, Jansen and Kaelbling, Leslie Pack, and Isola, Phillip},
+    author={Shen, William and Yang, Ge and Yu, Alan and Wong, Jansen and Kaelbling, Leslie Pack and Isola, Phillip},
     booktitle={7th Annual Conference on Robot Learning},
     year={2023},
     url={https://openreview.net/forum?id=Rb0nGIt_kh5}
