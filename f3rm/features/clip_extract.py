@@ -13,6 +13,14 @@ class CLIPArgs:
     skip_center_crop: bool = True
     batch_size: int = 64
 
+    @classmethod
+    def id_dict(cls):
+        """Return dict that identifies the CLIP model parameters."""
+        return {
+            "model_name": cls.model_name,
+            "skip_center_crop": cls.skip_center_crop,
+        }
+
 
 @torch.no_grad()
 def extract_clip_features(image_paths: List[str], device: torch.device) -> torch.Tensor:

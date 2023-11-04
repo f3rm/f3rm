@@ -15,6 +15,18 @@ class DINOArgs:
     bin: bool = False
     batch_size: int = 4
 
+    @classmethod
+    def id_dict(cls):
+        """Return dict that identifies the DINO model parameters."""
+        return {
+            "model_type": cls.model_type,
+            "load_size": cls.load_size,
+            "stride": cls.stride,
+            "facet": cls.facet,
+            "layer": cls.layer,
+            "bin": cls.bin,
+        }
+
 
 _supported_dino_models = {"dino_vits8", "dino_vits16", "dino_vitb8", "dino_vitb16"}
 
@@ -31,14 +43,9 @@ def extract_dino_features(image_paths: List[str], device: torch.device) -> torch
     print(f"Loaded DINO model {DINOArgs.model_type}")
 
     # Preprocess images
-    preprocessed_images = [
-        extractor.preprocess(image_path, DINOArgs.load_size)[0]
-        for image_path in image_paths
-    ]
+    preprocessed_images = [extractor.preprocess(image_path, DINOArgs.load_size)[0] for image_path in image_paths]
     preprocessed_images = torch.cat(preprocessed_images, dim=0).to(device)
-    print(
-        f"Preprocessed {len(image_paths)} images to shape {preprocessed_images.shape}"
-    )
+    print(f"Preprocessed {len(image_paths)} images to shape {preprocessed_images.shape}")
 
     # Extract DINO features in batches
     embeddings = []
@@ -47,11 +54,7 @@ def extract_dino_features(image_paths: List[str], device: torch.device) -> torch
         desc="Extracting DINO features",
     ):
         batch = preprocessed_images[i : i + DINOArgs.batch_size]
-        embeddings.append(
-            extractor.extract_descriptors(
-                batch, DINOArgs.layer, DINOArgs.facet, DINOArgs.bin
-            )
-        )
+        embeddings.append(extractor.extract_descriptors(batch, DINOArgs.layer, DINOArgs.facet, DINOArgs.bin))
     embeddings = torch.cat(embeddings, dim=0)
 
     # Reshape embeddings to have shape (batch, height, width, channels))

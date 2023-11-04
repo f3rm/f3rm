@@ -20,6 +20,11 @@ _datasets = [
         md5="1aba91f804d02f5e9e886c189e58a8e0",
     ),
     _Dataset(
+        name="panda_demos",
+        url="https://drive.google.com/uc?id=1ljKdj5Jpkq3p5rJPMRZHfAVw5IKZKAJ5",
+        md5="269034d94d6f1c34fd026c659d3a3bc7",
+    ),
+    _Dataset(
         name="rooms",
         url="https://drive.google.com/uc?id=1Kl84WHBN5VGTyuzKE9nd_HNrBQusEq21",
         md5="84dc1ec745c303a8e4da1c4a0871455e",
@@ -54,7 +59,8 @@ def download_dataset(name: str, save_dir: str):
 
     zip_path = os.path.join(save_dir, f"{name}.zip")
     if os.path.exists(zip_path):
-        raise RuntimeError(f"{zip_path} already exists! Delete it if you want to re-download.")
+        print(f"{zip_path} already exists! Delete it if you want to re-download.")
+        return
 
     # If dataset directory already exists, ask user if they want to overwrite it before continuing
     dataset_dir = os.path.join(save_dir, name)
