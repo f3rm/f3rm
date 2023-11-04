@@ -14,6 +14,7 @@ Manipulation.
 - [Troubleshooting](#troubleshooting)
     - [The Visualizer is not working](#the-visualizer-is-not-working)
     - [Running out of GPU memory](#running-out-of-gpu-memory)
+    - [ValueError: Could not find nerf_to_world.json in ...](#valueerror-could-not-find-nerf_to_worldjson-in-)
 
 ## Installation
 
