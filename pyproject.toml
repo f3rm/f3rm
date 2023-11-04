@@ -38,8 +38,7 @@ robot = [
     "params-proto",
     "PyMCubes",
     "python-slugify",
-    # Loosen version requirements when viser is more stable
-    "viser==0.1.7"
+    "viser",
 ]
 
 [tool.black]

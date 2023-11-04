@@ -104,6 +104,9 @@ pip install -e ".[robot]"
 # Alternatively, check: https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md
 pip install "git+https://github.com/facebookresearch/pytorch3d.git@stable"
 
+# Install the latest version of viser, temporary workaround as current nerfstudio release uses older version
+pip install viser==0.17.0
+
 # Test your installation. If you see a help message, everything should be working
 f3rm-optimize --help
 ```

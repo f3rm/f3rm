@@ -50,8 +50,7 @@ class ViserVisualizer(BaseVisualizer):
             ),
         )
 
-        # TODO: update this URL when merging into main
-        image_url = "https://raw.githubusercontent.com/f3rm/f3rm/f3rm_robot/src/images/ff_icon.png"
+        image_url = "https://raw.githubusercontent.com/f3rm/f3rm/main/assets/images/ff_icon.png"
         image = TitlebarImage(
             image_url_light=image_url,
             image_url_dark=image_url,
