@@ -401,7 +401,9 @@ def entrypoint():
             print()
             break
         if query == "":
-            break
+            print("Empty query, continuing...")
+            continue
+            # break
 
         # Optimize for the query!
         try:

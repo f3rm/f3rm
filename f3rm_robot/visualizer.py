@@ -41,12 +41,13 @@ class ViserVisualizer(BaseVisualizer):
 
         # Configure the theme following: https://viser.studio/examples/13_theming/
         buttons = (
-            TitlebarButton(text="GitHub", icon="GitHub", href="https://github.com/f3rm/f3rm"),
-            TitlebarButton(
-                text="Visualizer Guide",
-                icon="Description",
-                href="https://github.com/f3rm/f3rm/tree/main/f3rm_robot#using-the-visualizer",
-            ),
+            # TitlebarButton(text="GitHub", icon="GitHub", href="https://github.com/f3rm/f3rm"),
+            # TitlebarButton(
+            #     text="Visualizer Guide",
+            #     icon="Description",
+            #     href="https://github.com/f3rm/f3rm/tree/main/f3rm_robot#using-the-visualizer",
+            # ),
+            TitlebarButton(text="Project Website: f3rm.github.io", icon="GitHub"),
         )
 
         image_url = "https://raw.githubusercontent.com/f3rm/f3rm/main/assets/images/ff_icon.png"
@@ -77,6 +78,15 @@ class ViserVisualizer(BaseVisualizer):
                 label="Query", initial_value="", hint="Enter the object you want to grasp."
             )
             gui_submit = self.server.add_gui_button("Submit")
+
+        gui_md = self.server.add_gui_markdown(
+            """
+            - Try querying at different levels of semantic granularity.
+            - Try querying for color or material attributes.
+
+            <img src="https://people.csail.mit.edu/willshen/f3rm_qr_new.png" alt="QR Code" width="150"/>
+            """
+        )
 
         click_event = Event()
 
