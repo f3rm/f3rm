@@ -40,6 +40,7 @@ class OptimizationArgs(ParamsProto, cli_parse=False):
     viser_host: str = Proto("localhost", help="Host to use for viser visualization server.")
     viser_port: int = Proto(8012, help="Port to use for viser visualization server.")
     num_poses_to_visualize: int = Proto(10, help="Number of poses to visualize during and after optimization.")
+    vis_interval: int = Proto(1, help="Number of optimization steps between visualizations.")
 
 
 # You can access the variables directly with OptimizationArgs.<field_name>, and do not need to instantiate an object

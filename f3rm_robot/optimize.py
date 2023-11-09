@@ -293,7 +293,8 @@ def language_pose_optimization(
         step_losses = torch.cat(step_losses)
 
         # Visualize top poses. Note this does not take into account collisions.
-        if args.visualize:
+        # Visualize every 5 steps
+        if args.visualize and step % args.vis_interval == 0:
             sorted_losses, sorted_indices = step_losses.sort(descending=False)
             best_losses, best_indices = (
                 sorted_losses[: args.num_poses_to_visualize],
