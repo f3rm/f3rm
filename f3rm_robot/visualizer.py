@@ -81,6 +81,8 @@ class ViserVisualizer(BaseVisualizer):
 
         gui_md = self.server.add_gui_markdown(
             """
+            The hotel wifi is very slow :(
+            
             - Try querying at different levels of semantic granularity.
             - Try querying for color or material attributes.
 
