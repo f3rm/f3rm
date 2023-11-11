@@ -40,7 +40,7 @@ We provide the official implementation of F3RM for:
 2. 6-DOF Pose Optimization for Open-Text Language-Guided Manipulation
 
 F3RM is built on top of [Nerfstudio](https://github.com/nerfstudio-project/nerfstudio) following their
-[guide for adding new methods](https://docs.nerf.studio/en/latest/developer_guides/new_methods.html). For a summary
+[guide for adding new methods](https://docs.nerf.studio/developer_guides/new_methods.html). For a summary
 of the codebase structure, see [assets/code_structure.md](assets/code_structure.md).
 
 ### Installation
@@ -134,7 +134,7 @@ ns-train f3rm --data <data_folder>
 You can try F3RM with the example datasets which you can download following the
 [instructions here](#downloading-example-datasets) (try out `f3rm/panda/scene_001`). Alternatively, you can prepare your
 own datasets following the instructions in the
-[Nerfstudio documentation](https://docs.nerf.studio/en/latest/quickstart/custom_dataset.html).
+[Nerfstudio documentation](https://docs.nerf.studio/quickstart/custom_dataset.html).
 
 Note that while we focused on tabletop environments in the paper, F3RM can be scaled up to much larger environments. Try
 training feature fields on the example [rooms datasets](assets/datasets.md#rooms).
@@ -151,7 +151,7 @@ directory relative to your current directory.
 ns-train f3rm --data <data_folder> --load-dir {outputs/.../nerfstudio_models}
 ```
 
-Checkout the [Nerfstudio documentation](https://docs.nerf.studio/en/latest/quickstart/first_nerf.html) for more details
+Checkout the [Nerfstudio documentation](https://docs.nerf.studio/quickstart/first_nerf.html) for more details
 on functionality.
 
 ### Using our Custom Viewer
