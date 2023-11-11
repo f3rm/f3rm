@@ -63,6 +63,12 @@ def validate_args():
     assert 0 < _args.keep_proportion <= 1.0, "--keep_proportion must be between 0 and 1"
     assert _args.min_proposals > 0, "--min_proposals must be positive"
     assert _args.prune_after > 0, "--prune_after must be positive"
+    # Check min and max bounds
+    assert len(_args.min_bounds) == 3, f"--min_bounds must be a tuple of length 3, not {_args.min_bounds}"
+    assert len(_args.max_bounds) == 3, f"--max_bounds must be a tuple of length 3, not {_args.max_bounds}"
+    assert all(
+        [min_bound < max_bound for min_bound, max_bound in zip(_args.min_bounds, _args.max_bounds)]
+    ), "--min_bounds must be less than --max_bounds"
     # Visualization - try process args.visualize
     if isinstance(_args.visualize, str):
         assert _args.visualize.lower() in {"true", "false"}, "--visualize must be True or False"
