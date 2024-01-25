@@ -20,7 +20,8 @@ dependencies = [
     "ftfy",
     "gdown",
     "matplotlib",
-    "nerfstudio>=0.3.3",
+    # Last release before v1.0.0 which breaks things
+    "nerfstudio==0.3.4",
     "numpy",
     "pillow",
     "regex",

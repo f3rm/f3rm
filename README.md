@@ -92,6 +92,8 @@ in the `f3rm` conda environment. Run `which -a ns-train` and check that the firs
 `$CONDA_PREFIX/bin/ns-train`. If it doesn't, then you may need to deactivate all conda environments and only activate
 the `f3rm` environment.
 
+Our code is tested to work on Nerfstudio versions 0.3.3 and 0.3.4.
+
 #### 4. (Optional) Install dependencies for robot manipulation code
 
 Make sure your conda environment is activated before running the following commands.
@@ -103,9 +105,6 @@ pip install -e ".[robot]"
 # Install PyTorch3D, we recommend you build from source which may take a few minutes
 # Alternatively, check: https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md
 pip install "git+https://github.com/facebookresearch/pytorch3d.git@stable"
-
-# Install the latest version of viser, temporary workaround as current nerfstudio release uses older version
-pip install viser==0.17.0
 
 # Test your installation. If you see a help message, everything should be working
 f3rm-optimize --help
