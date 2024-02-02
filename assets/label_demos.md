@@ -93,8 +93,8 @@ label multiple demos for a scene. If you do not move the gripper from the origin
 
 <img src="images/vuer/new_gripper.png" width="700" alt="Vuer gripper demo">
 
-Feel free to make changes to the script to suit your needs. The example provided is best used with our datasets and
-setup.
+`Ctrl+C` when you are done labeling demos to stop the script. Feel free to make changes to suit your needs. The example
+provided is best used with our datasets and setup.
 
 ### 5. Generate a Task using the feature field and demos (optional)
 
