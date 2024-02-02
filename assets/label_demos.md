@@ -79,6 +79,8 @@ VR" button in the bottom-center of the Vuer window on a VR-enabled device.
 We create "gripper" objects at the origin which you can move around using the gizmo. In VR, you can click and hold onto
 the white cube to select the gripper, and move it around using your hand controller.
 
+<img src="images/vuer/vr.gif" width="700" alt="Vuer in VR">
+
 Whenever you move a gripper, the poses will be saved to a demo JSON file in the schema that we use.
 
 ```text

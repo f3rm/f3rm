@@ -231,7 +231,7 @@ check [f3rm_robot/README.md](f3rm_robot/README.md). A detailed tutorial is provi
 We support labeling 6-DOF pose demonstrations in VR and the brwoserusing our custom [Vuer](https://docs.vuer.ai/)
 library! Instructions are provided in [assets/label_demos.md](assets/label_demos.md).
 
-[<img src="assets/images/vuer/label_demos.gif" width="500" alt="Labeling Demos in VR">](assets/label_demos.md)
+[<img src="assets/images/vuer/vr.gif" width="500" alt="Labeling Demos in VR">](assets/label_demos.md)
 
 ## Troubleshooting
 
