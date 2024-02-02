@@ -18,7 +18,7 @@ app = Vuer()
 _valid_exts = {".xyz", ".xyzn", ".xyzrgb", ".pts", ".ply", ".pcd", "config.yml"}
 
 while True:
-    load_path = input("=> Enter path to point cloud or nerfstudio outputs: ").strip().rstrip("/")
+    load_path = input("=> Enter path to point cloud or nerfstudio config.yml: ").strip().rstrip("/")
     if not any(load_path.endswith(ext) for ext in _valid_exts):
         print(f"Invalid file extension! Must be one of: {_valid_exts}")
     elif not os.path.exists(load_path):
