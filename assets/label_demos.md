@@ -61,7 +61,8 @@ If you are running the script on a remote machine, make sure to forward the port
 can connect in the Vuer window in your browser. You can forward the port using
 `ssh -L 8012:localhost:8012 <user>@<remote machine>` (change this if you are using a different port).
 
-**If you are using a VR headset:** consider using a service like [ngrok](https://ngrok.com/) to forward the port to the
+#### Connecting with a VR Headset
+Consider using a service like [ngrok](https://ngrok.com/) to forward the port to the
 internet, so you can access the Vuer window in VR. You will need to change the websocket address in the "Socket URI"
 controls near the top-right to match the ngrok address and click the reconnect button.
 
