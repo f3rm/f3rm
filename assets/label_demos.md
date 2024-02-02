@@ -71,6 +71,7 @@ controls near the top-right to match the ngrok address and click the reconnect b
 3. Run `ngrok http 8012` to forward the port to the internet (change this if you are using a different port).
 4. On your VR device, open the ngrok HTTPS URL (not HTTP) in the browser as a **normal** URL and trust the connection.
    This may or may not be required.
+   - The URL is shown on the `Forwarding` line in the ngrok terminal window.
 5. In the Vuer window, change the websocket address to the ngrok address but with the **`wss://` protocol** (secure
    websockets) instead of `https://` and click the "reconnect" button.
    - Note: unsecure websockets (`ws://`) will not work here due to browser security restrictions.
