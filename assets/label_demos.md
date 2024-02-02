@@ -66,7 +66,7 @@ internet so you can access the Vuer window in VR. You will need to change the we
 controls near the top-right to match the ngrok address (tip: you will probably need to use a secure websocket which is
 prefixed with `wss://`).
 
-<img src="images/vuer/reconnect.png" width="380" alt="Vuer reconnect button">
+<img src="images/vuer/reconnect.png" width="450" alt="Vuer reconnect button">
 
 ### 4. Label the demos!
 
@@ -74,7 +74,7 @@ You can label demos in the browser on your own computer, or in VR if you have a 
 Enter
 VR" button in the bottom-center of the Vuer window on a VR-enabled device.
 
-<img src="images/vuer/scene.png" width="500" alt="Vuer scene">
+<img src="images/vuer/scene.png" width="700" alt="Vuer scene">
 
 We create "gripper" objects at the origin which you can move around using the gizmo. In VR, you can click and hold onto
 the white cube to select the gripper, and move it around using your hand controller.
@@ -89,7 +89,7 @@ Time since last gripper event: 5.03s
 Once the gripper is moved 10cm in L2 distance from the origin, a new gripper will be created at the origin, so you can
 label multiple demos for a scene. If you do not move the gripper from the origin, its pose will not be saved.
 
-<img src="images/vuer/new_gripper.png" width="500" alt="Vuer gripper demo">
+<img src="images/vuer/new_gripper.png" width="700" alt="Vuer gripper demo">
 
 Feel free to make changes to the script to suit your needs. The example provided is best used with our datasets and
 setup.
@@ -116,7 +116,7 @@ below, please open a GitHub issue.
 Try clicking the "reconnect" button near the top-right of the Vuer window. Make sure the websocket address is correct.
 By default, the websocket address is `ws://localhost:8012`.
 
-<img src="images/vuer/reconnect.png" width="380" alt="Vuer reconnect button">
+<img src="images/vuer/reconnect.png" width="450" alt="Vuer reconnect button">
 
 If you are using a remote machine, make sure you have forwarded the relevant port to your local machine. You can forward
 the port using `ssh -L 8012:localhost:8012 <user>@<remote machine>`.
