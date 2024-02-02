@@ -52,7 +52,7 @@ is [https://vuer.ai?ws=ws://localhost:8012](https://vuer.ai?ws=ws://localhost:80
 
 ```text
 ✅ Done loading checkpoint from f3rm_outputs/scene_001/f3rm/nerfstudio_models/step-000004999.ckpt
-Sampling point cloud for visualization: 100457it [00:02, 48058.06it/s]                                                                                                   
+Sampling point cloud for visualization: 100457it [00:02, 48058.06it/s]
 Serving file:///home/william/workspace/vqn/f3rm-new at /static
 Visit: https://vuer.ai?ws=ws://localhost:8012
 ```
