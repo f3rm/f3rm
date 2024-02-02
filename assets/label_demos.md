@@ -63,8 +63,17 @@ can connect in the Vuer window in your browser. You can forward the port using
 
 **If you are using a VR headset:** consider using a service like [ngrok](https://ngrok.com/) to forward the port to the
 internet, so you can access the Vuer window in VR. You will need to change the websocket address in the "Socket URI"
-controls near the top-right to match the ngrok address (tip: you will probably need to use a secure websocket which is
-prefixed with `wss://`).
+controls near the top-right to match the ngrok address and click the reconnect button.
+
+1. Sign up or log into [ngrok.com](https://ngrok.com/).
+2. Download the ngrok client and configure it with your authtoken, following the instructions in the ngrok web dashboard.
+3. Run `ngrok http 8012` to forward the port to the internet (change this if you are using a different port).
+4. On your VR device, open the ngrok HTTPS URL (not HTTP) in the browser as a **normal** URL and trust the connection.
+   This may or may not be required.
+5. In the Vuer window, change the websocket address to the ngrok address but with the **`wss://` protocol** (secure
+   websockets) instead of `https://` and click the "reconnect" button.
+   - Note: unsecure websockets (`ws://`) will not work here due to browser security restrictions.
+6. You should now be able to see the point cloud and gripper show up in Vuer!
 
 <img src="images/vuer/ngrok_websocket.png" width="450" alt="Vuer reconnect button">
 
@@ -129,3 +138,5 @@ Make sure you are using a browser that supports WebXR. If you do not have a VR h
 monitor and move the axes on the gripper around with your mouse to label your demonstrations. If you want to try out
 what Vuer would look like in VR, you can use a WebXR emulator.
 
+### `AssertionError: Websocket session is missing.`
+Try restarting the script and refreshing the Vuer window.
