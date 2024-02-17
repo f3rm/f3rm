@@ -142,6 +142,12 @@ Make sure you are using a browser that supports WebXR. If you do not have a VR h
 monitor and move the axes on the gripper around with your mouse to label your demonstrations. If you want to try out
 what Vuer would look like in VR, you can use a WebXR emulator.
 
-### `AssertionError: Websocket session is missing.`
+### The viewer is super laggy in VR
+
+The performance may vary depending on the number of points in your point cloud. Consider downsampling the point cloud
+before loading it into Vuer to improve performance. On a Meta Quest 2, we found that approximately 50,000 points was the
+limit for a smooth experience.
+
+### I get `AssertionError: Websocket session is missing.`
 
 Try restarting the script and refreshing the Vuer window.
