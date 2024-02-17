@@ -2,6 +2,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
+import numpy as np
 import torch
 from nerfstudio.cameras.camera_optimizers import CameraOptimizer
 from nerfstudio.pipelines.base_pipeline import Pipeline
@@ -101,7 +102,36 @@ def load_nerfstudio_outputs(exp_config_path: str) -> LoadState:
     config, pipeline, checkpoint_path, step = eval_setup(Path(exp_config_path))
 
     # Load nerf to world transformation
-    nerf_to_world = load_nerf_to_world(dataset=config.data)
+    try:
+        nerf_to_world = load_nerf_to_world(dataset=config.data or config.pipeline.datamanager.dataparser.data)
+    except ValueError:
+        # oriented_poses = transform @ poses
+        dataparser_transforms = Path(exp_config_path).parent / "dataparser_transforms.json"
+        if not dataparser_transforms.exists():
+            raise RuntimeError
+
+        with dataparser_transforms.open("r") as f:
+            dataparser_transforms = json.load(f)
+
+        transform = np.array(dataparser_transforms["transform"])
+        assert transform.shape == (3, 4)
+        # add the last row
+        transform = np.vstack([transform, [0, 0, 0, 1]])
+        scale = dataparser_transforms["scale"]
+
+        inverse_transform = np.linalg.inv(transform)
+        inverse_scale = 1 / scale
+
+        scale_matrix = np.eye(4)
+        scale_matrix[0, 0] = inverse_scale
+        scale_matrix[1, 1] = inverse_scale
+        scale_matrix[2, 2] = inverse_scale
+
+        nerf_to_world = inverse_transform @ scale_matrix
+        nerf_to_world = torch.tensor(nerf_to_world).float()
+        print("nerf_to_world =", nerf_to_world)
+        nerf_to_world = Transform3d(matrix=nerf_to_world.T)
+
     nerf_to_world = nerf_to_world.to(pipeline.device)
 
     # Load and apply the camera optimizer offset. It's slightly confusing, as the final Nerfstudio model actually

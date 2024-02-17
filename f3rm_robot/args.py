@@ -32,8 +32,11 @@ class OptimizationArgs(ParamsProto, cli_parse=False):
     prune_after: int = Proto(10, help="Number of optimization steps to run before pruning.")
 
     # Min and max bounds of the workspace in world frame with metric scale
-    min_bounds: Tuple[float, float, float] = (0.1, -0.45, 0.005)
-    max_bounds: Tuple[float, float, float] = (0.8, 0.45, 0.35)
+    # min_bounds: Tuple[float, float, float] = (0.1, -0.45, 0.005)
+    # max_bounds: Tuple[float, float, float] = (0.8, 0.45, 0.35)
+    min_bounds: Tuple[float, float, float] = (-0.7, -0.3, -0.4)
+    max_bounds: Tuple[float, float, float] = (-0.2, 0.3, 0.2)
+
 
     # Visualization
     visualize: bool = Proto(True, help="Whether to enable visualization of the optimization. This slows down the run.")

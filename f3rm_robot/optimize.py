@@ -4,6 +4,7 @@ from functools import reduce
 from pathlib import Path
 from typing import Any, Dict, Optional, Tuple
 
+import numpy as np
 import open3d as o3d
 import torch
 from jaxtyping import Float
@@ -11,6 +12,7 @@ from params_proto import ARGS
 from pytorch3d.transforms import Transform3d, quaternion_to_matrix, random_quaternions
 from slugify import slugify
 from tqdm import tqdm
+from viser.extras import ViserUrdf
 
 from f3rm.features.clip import clip, tokenize
 from f3rm.features.clip.model import CLIP
@@ -37,8 +39,8 @@ visualizer: Optional[BaseVisualizer] = None
 
 def get_scene_pcd(load_state: LoadState, num_points: int, voxel_size: float) -> o3d.geometry.PointCloud:
     # Set z to -0.01, so we can show the table as well in the point cloud
-    scene_min_bounds = (args.min_bounds[0], args.min_bounds[1], -0.01)
-    pcd = sample_point_cloud(load_state, num_points, scene_min_bounds, args.max_bounds)
+    # scene_min_bounds = (args.min_bounds[0], args.min_bounds[1], -0.01)
+    pcd = sample_point_cloud(load_state, num_points, args.min_bounds, args.max_bounds, use_bbox=True)
 
     # Downsample and remove outliers (floaters)
     pcd = pcd.voxel_down_sample(voxel_size=voxel_size)
@@ -49,7 +51,12 @@ def get_scene_pcd(load_state: LoadState, num_points: int, voxel_size: float) -> 
 def visualize_scene(load_state: LoadState, num_points: int = 200_000, voxel_size: float = 0.005):
     """Visualize the scene by sampling a point cloud from the NeRF and adding it to the visualizer."""
     pcd = get_scene_pcd(load_state, num_points, voxel_size)
-    visualizer.add_o3d_point_cloud("scene_pcd", pcd, point_size=voxel_size + 0.001)
+    visualizer.add_o3d_point_cloud("scene_pcd", pcd, point_size=voxel_size - 0.001)
+
+    urdf = ViserUrdf(visualizer.server, Path("/home/william/workspace/vqn/f3rm-new/f3rm_robot/ur5/ur5.urdf"))
+    home_conf = (0, -1.57, 1.57, -1.57, -1.57, 0)
+    urdf.update_cfg(np.array(home_conf))
+
     return pcd
 
 
