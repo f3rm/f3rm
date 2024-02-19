@@ -34,8 +34,8 @@ class OptimizationArgs(ParamsProto, cli_parse=False):
     # Min and max bounds of the workspace in world frame with metric scale
     # min_bounds: Tuple[float, float, float] = (0.1, -0.45, 0.005)
     # max_bounds: Tuple[float, float, float] = (0.8, 0.45, 0.35)
-    min_bounds: Tuple[float, float, float] = (-0.7, -0.3, -0.4)
-    max_bounds: Tuple[float, float, float] = (-0.2, 0.3, 0.2)
+    min_bounds: Tuple[float, float, float] = (0.2, -0.3, -0.6)
+    max_bounds: Tuple[float, float, float] = (0.7, 0.3, 0.5)
 
 
     # Visualization
