@@ -425,6 +425,8 @@ def entrypoint():
         with open(query_dir / "metrics.json", "w") as f:
             json.dump(results["metrics"], f, indent=4)
         torch.save(results["grasps_to_world"].cpu(), query_dir / "grasps_to_world.pt")
+        with open(query_dir / "grasps_to_world.json", "w") as f:
+            json.dump(results["grasps_to_world"].get_matrix().transpose(1, 2).detach().tolist(), f, indent=2)
         if "gripper_mesh" in results:
             o3d.io.write_triangle_mesh(str(query_dir / "gripper_mesh.ply"), results["gripper_mesh"])
         print(f"Saved results to {query_dir}")
