@@ -110,6 +110,13 @@ class ViserVisualizer(BaseVisualizer):
         return self.server.add_mesh_simple(key, vertices, faces, colors, **kwargs)
 
     def add_o3d_mesh(self, key: str, mesh: o3d.geometry.TriangleMesh, **kwargs):
+        # There was a period when viser removed add_glb temporarily
+        if not hasattr(self.server, "add_glb"):
+            raise AttributeError(
+                "Could not find add_glb method in viser.ViserServer. Please install the latest version of viser.\n"
+                "You can run: pip install viser -U"
+            )
+
         # Viser only supports single RGB colors for meshes, so we write it to a GLB file. Viser does this for
         # trimesh. Since we write and read it isn't optimal, but it suffices for now.
         with tempfile.NamedTemporaryFile(suffix=".glb") as tmp_file:
