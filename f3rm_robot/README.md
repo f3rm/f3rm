@@ -164,6 +164,7 @@ above), and continue entering language queries.
 
 ## FAQ
 
+- [How do I run the optimization on my own dataset?](#how-do-i-run-the-optimization-on-my-own-dataset)
 - [How can I execute the grasps on my robot?](#how-can-i-execute-the-grasps-on-my-robot)
 - [What if I'm using a different gripper or robot?](#what-if-im-using-a-different-gripper-or-robot)
 - [Why does the collision checking not remove all collisions?](#why-does-the-collision-checking-not-remove-all-collisions)
@@ -172,6 +173,14 @@ above), and continue entering language queries.
 - [Why doesn't the optimization target the right object specified by my language query?](#why-doesnt-the-optimization-target-the-right-object-specified-by-my-language-query)
 - [Where are the task embeddings?](#where-are-the-task-embeddings)
 - [How can I generate my own task embeddings?](#how-can-i-generate-my-own-task-embeddings)
+
+### How do I run the optimization on my own dataset?
+
+Firstly, you will need to determine the transform from the NeRF coordinate frame to the world coordinate frame. In our Panda datasets, this information is in a `nerf_to_world.json` file which is read by the optimization scripts. See this Github issue for more instructions: https://github.com/f3rm/f3rm/issues/15. This issue also has some good pointers: https://github.com/f3rm/f3rm/issues/11
+
+You will also need to adjust the bounds of the workspace to match your robot setup. Modify the lines here: https://github.com/f3rm/f3rm/blob/main/f3rm_robot/args.py#L34-L36
+
+A good first step is to make these bounds very big to see the point cloud that has been sampled in the visualizer. Check the rest of the FAQ below for important details.
 
 ### How can I execute the grasps on my robot?
 
