@@ -17,6 +17,9 @@ dist/
 # Datasets
 datasets/
 
+# Demos output by label_demos.py
+*_scene_demo.json
+
 # Nerfstudio outputs
 outputs/
 f3rm_outputs/

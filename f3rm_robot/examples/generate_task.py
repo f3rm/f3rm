@@ -67,7 +67,7 @@ def visualize_demos(
 
     # Show point cloud of the scene
     scene_pcd = get_scene_pcd(load_state, num_points=100_000, voxel_size=0.005)
-    visualizer.add_o3d_point_cloud("scene_pcd", scene_pcd, point_size=0.005 + 0.001)
+    visualizer.add_o3d_point_cloud("scene_pcd", scene_pcd, point_size=0.005)
 
     # Show query points, coordinate frame, and gripper mesh for each demo
     base_gripper_mesh = get_panda_gripper_mesh()
@@ -109,15 +109,25 @@ def generate_task(
     load_state = load_nerfstudio_outputs(scene)
     device = load_state.pipeline.device
 
-    # Load the demos for this scene
-    dataset = load_state.pipeline.datamanager.get_datapath()
-    demo_dict, demo_poses = load_demos(dataset / demo_fname)
+    # Load the demos for this scene, if demo file doesn't exist try find it in the dataset
+    demo_path = Path(demo_fname)
+    if not demo_path.exists():
+        dataset = load_state.pipeline.datamanager.get_datapath()
+        print(f"WARNING: Could not find demo file {demo_path}, trying to find it in the dataset {dataset}.")
+        demo_path = dataset / demo_fname
+        if not demo_path.exists():
+            raise FileNotFoundError(f"Could not find demo file {demo_fname}.")
+    demo_dict, demo_poses = load_demos(demo_path)
 
     # Sample query points and transform by demo poses. The optimization can be noisy depending on the sampling of the
     # query points, so you might want to try multiple different samples.
     query_points = sample_query_points(num_query_points, std_dev=qp_std_dev)
     qp_transformed = demo_poses.transform_points(query_points)
     qp_transformed = qp_transformed.to(device)
+
+    if qp_transformed.ndim == 2:
+        # Add batch dimension as there was only one demo
+        qp_transformed = qp_transformed[None, ...]
 
     # Get features and density for each demo from feature field
     feature_field = load_state.feature_field_adapter()

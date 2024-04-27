@@ -267,6 +267,9 @@ We provide the demonstration datasets and poses which you can download with `f3r
 these datasets contains a `scene_demo*.json` file which contains the demo poses in the world coordinate frame. Please
 see the [datasets](/assets/datasets.md#panda_demos) page for more information.
 
+If you want to label demonstrations on your own scene, see the instructions
+in [assets/label_demos.md](../assets/label_demos.md). We support labeling demos in the browser and in VR!
+
 Follow the short tutorial below for an example on how to generate task embeddings:
 
 ```bash
